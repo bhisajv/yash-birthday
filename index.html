@@ -409,8 +409,9 @@ body{background:var(--cream);font-family:'Nunito',sans-serif;overflow-x:hidden;}
   <div class="entry-sub">Do you want to see something I made for you?</div>
   <div class="btn-row">
     <button class="btn btn-yes" onclick="openSite()">Yes, please</button>
-    <button class="btn btn-no" id="noBtn" onmouseover="runAway(this)" onclick="openSite()">No thanks</button>
+    <button class="btn btn-no" id="noBtn" onmouseover="runAway(this)" onclick="runAway(this)">No thanks</button>
   </div>
+  <div id="no-msg" style="margin-top:20px;font-family:'Caveat',cursive;font-size:18px;color:var(--dust);opacity:0;transition:opacity 0.6s ease;">nice try :)</div>
 </div>
 
 <!-- ══ MAIN ══ -->
@@ -645,13 +646,31 @@ body{background:var(--cream);font-family:'Nunito',sans-serif;overflow-x:hidden;}
 
 <script>
 /* ── ENTRY ── */
+let noClickCount=0;
 function runAway(btn){
-  const x=(Math.random()>0.5?1:-1)*(44+Math.random()*88);
-  const y=(Math.random()>0.5?1:-1)*(28+Math.random()*64);
-  const r=(Math.random()-0.5)*38;
+  noClickCount++;
+  // get faster and go further each time
+  const speed=Math.min(0.05+noClickCount*0.04, 0.35);
+  const range=60+noClickCount*30;
+  const x=(Math.random()>0.5?1:-1)*(range+Math.random()*range);
+  const y=(Math.random()>0.5?1:-1)*(range*0.6+Math.random()*range*0.5);
+  const r=(Math.random()-0.5)*(20+noClickCount*8);
+  btn.style.transition=`all ${speed}s cubic-bezier(0.22,1,0.36,1)`;
   btn.style.setProperty('--rx',x+'px');
   btn.style.setProperty('--ry',y+'px');
   btn.style.setProperty('--rr',r+'deg');
+  // after 3 attempts show a cheeky message
+  if(noClickCount===3){
+    const msg=document.getElementById('no-msg');
+    if(msg){msg.style.opacity='1';}
+  }
+  // after 5 attempts hide it completely
+  if(noClickCount>=6){
+    btn.style.opacity='0';
+    btn.style.pointerEvents='none';
+    const msg=document.getElementById('no-msg');
+    if(msg){msg.textContent='she's gone. just say yes :)';}
+  }
 }
 
 function openSite(){
