@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Yashaswani</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Nunito:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Pacifico&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --cream:#fdf9f3;
+  --cream2:#f5efe4;
+  --cream3:#ece4d5;
+  --ink:#1e1408;
+  --red:#d94f5c;
+  --red-pale:#f2a0a8;
+  --blue:#3a6bb5;
+  --mid:#7a6655;
+  --dust:#b8a898;
+  --white:#ffffff;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--cream);font-family:'Nunito',sans-serif;overflow-x:hidden;}
+
+/* ── REVEAL ANIMATIONS ── */
+.reveal{
+  opacity:0;transform:translateY(32px);
+  transition:opacity 0.8s cubic-bezier(0.22,1,0.36,1),transform 0.8s cubic-bezier(0.22,1,0.36,1);
+}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.stagger .reveal:nth-child(1){transition-delay:0.00s;}
+.stagger .reveal:nth-child(2){transition-delay:0.07s;}
+.stagger .reveal:nth-child(3){transition-delay:0.14s;}
+.stagger .reveal:nth-child(4){transition-delay:0.21s;}
+.stagger .reveal:nth-child(5){transition-delay:0.28s;}
+.stagger .reveal:nth-child(6){transition-delay:0.35s;}
+.stagger .reveal:nth-child(7){transition-delay:0.42s;}
+.stagger .reveal:nth-child(8){transition-delay:0.49s;}
+
+/* ── FLOATING DOODLES ── */
+@keyframes floatA{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-10px) rotate(3deg);}}
+@keyframes floatB{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-7px) rotate(-4deg);}}
+@keyframes floatC{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-12px) rotate(2deg);}}
+.float-a{animation:floatA 5s ease-in-out infinite;}
+.float-b{animation:floatB 6.5s ease-in-out infinite;}
+.float-c{animation:floatC 4.5s ease-in-out infinite;}
+
+/* ── ENTRY ── */
+#entry{
+  min-height:100vh;width:100%;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+  background:var(--cream);padding:40px 24px;
+  transition:opacity 0.8s cubic-bezier(0.22,1,0.36,1);
+}
+#entry.leaving{opacity:0;pointer-events:none;}
+.entry-doodles{position:absolute;inset:0;pointer-events:none;}
+.entry-eyebrow{
+  font-family:'Caveat',cursive;font-size:17px;font-weight:500;
+  color:var(--dust);margin-bottom:18px;text-align:center;letter-spacing:0.05em;
+}
+.entry-title{
+  font-family:'Caveat',cursive;
+  font-size:clamp(30px,6vw,56px);font-weight:700;
+  color:var(--ink);text-align:center;line-height:1.25;margin-bottom:10px;
+}
+.entry-title em{color:var(--red);font-style:normal;}
+.entry-sub{
+  font-family:'Caveat',cursive;font-size:clamp(17px,3vw,22px);
+  color:var(--mid);text-align:center;margin-bottom:44px;line-height:1.5;
+}
+.btn-row{display:flex;gap:16px;align-items:center;justify-content:center;flex-wrap:wrap;}
+.btn{
+  padding:13px 38px;font-family:'Caveat',cursive;font-size:20px;font-weight:700;
+  cursor:pointer;border-radius:50px;transition:all 0.3s cubic-bezier(0.22,1,0.36,1);outline:none;
+}
+.btn-yes{
+  background:var(--red);color:#fff;border:none;
+  box-shadow:0 4px 24px rgba(217,79,92,0.25);
+}
+.btn-yes:hover{background:#c23d4a;transform:translateY(-3px);box-shadow:0 8px 32px rgba(217,79,92,0.32);}
+.btn-no{
+  background:transparent;color:var(--mid);
+  border:2px dashed var(--cream3);
+  transition:all 0.35s ease;
+}
+.btn-no:hover{
+  transform:translate(var(--rx,40px),var(--ry,-20px)) rotate(var(--rr,8deg));
+  opacity:0.25;
+}
+
+/* ── MAIN ── */
+#main{display:none;background:var(--cream);}
+#main.visible{display:block;}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  position:relative;overflow:hidden;padding:80px 24px;
+}
+.hero-doodles{position:absolute;inset:0;pointer-events:none;}
+.hero-eyebrow{
+  font-family:'Caveat',cursive;font-size:18px;font-weight:500;
+  color:var(--dust);margin-bottom:14px;position:relative;z-index:2;
+}
+.hero-name{
+  font-family:'Pacifico',cursive;
+  font-size:clamp(52px,13vw,140px);
+  color:var(--ink);line-height:1.0;
+  text-align:center;position:relative;z-index:2;
+  letter-spacing:-0.01em;
+}
+.hero-name span{color:var(--red);}
+.hero-sub{
+  font-family:'Caveat',cursive;font-size:20px;font-weight:500;
+  color:var(--mid);margin-top:18px;position:relative;z-index:2;
+}
+.scroll-hint{
+  position:absolute;bottom:36px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;z-index:2;
+}
+.scroll-hint span{font-family:'Caveat',cursive;font-size:14px;color:var(--dust);}
+.scroll-line{
+  width:1px;height:36px;
+  background:linear-gradient(to bottom,var(--dust),transparent);
+  animation:scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse{0%,100%{opacity:0.3;}50%{opacity:1;}}
+
+/* ── SECTIONS ── */
+.section{padding:88px 24px;max-width:980px;margin:0 auto;}
+.section-label{
+  font-family:'Caveat',cursive;font-size:22px;font-weight:600;
+  color:var(--mid);margin-bottom:36px;
+  display:flex;align-items:center;gap:10px;
+}
+
+/* ── POLAROIDS ── */
+.photo-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(210px,1fr));
+}
+.polaroid{
+  background:var(--white);
+  padding:10px 10px 44px;border-radius:3px;
+  box-shadow:0 2px 18px rgba(30,20,8,0.09),0 1px 3px rgba(30,20,8,0.04);
+  transform:rotate(var(--r,0deg));
+  transition:transform 0.45s cubic-bezier(0.22,1,0.36,1),box-shadow 0.45s ease;
+  position:relative;margin:14px;
+}
+.polaroid:hover{
+  transform:rotate(0deg) scale(1.035) translateY(-5px);
+  box-shadow:0 14px 44px rgba(30,20,8,0.14);z-index:5;
+}
+.polaroid img{width:100%;aspect-ratio:1;object-fit:cover;display:block;}
+.photo-ph{
+  width:100%;aspect-ratio:1;background:var(--cream2);
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;
+}
+.photo-ph span{
+  font-family:'Caveat',cursive;font-size:13px;color:var(--dust);
+  text-align:center;padding:10px;line-height:1.4;
+}
+.polaroid-cap{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:6px 8px 10px;
+  font-family:'Caveat',cursive;font-size:14px;font-weight:500;
+  color:var(--mid);text-align:center;line-height:1.3;
+}
+.cap-ph{color:var(--dust);font-style:italic;font-size:13px;}
+
+/* ── CAKE SECTION ── */
+.cake-section{
+  padding:80px 24px;
+  background:var(--cream2);
+  display:flex;flex-direction:column;
+  align-items:center;text-align:center;
+  position:relative;overflow:hidden;
+}
+.cake-label{
+  font-family:'Caveat',cursive;font-size:22px;font-weight:600;
+  color:var(--mid);margin-bottom:12px;
+}
+.cake-22{
+  font-family:'Pacifico',cursive;
+  font-size:clamp(52px,12vw,100px);
+  color:var(--red);margin-bottom:8px;line-height:1;
+}
+.cake-sub{
+  font-family:'Caveat',cursive;font-size:18px;
+  color:var(--dust);margin-bottom:40px;
+}
+
+/* candle flame flicker */
+@keyframes flicker{
+  0%,100%{transform:scaleY(1) scaleX(1) translateY(0);opacity:1;}
+  25%{transform:scaleY(1.12) scaleX(0.88) translateY(-2px);opacity:0.9;}
+  50%{transform:scaleY(0.92) scaleX(1.08) translateY(1px);opacity:1;}
+  75%{transform:scaleY(1.08) scaleX(0.92) translateY(-1px);opacity:0.95;}
+}
+@keyframes flicker2{
+  0%,100%{transform:scaleY(1) scaleX(1) translateY(0);opacity:1;}
+  20%{transform:scaleY(0.9) scaleX(1.1) translateY(1px);opacity:0.92;}
+  55%{transform:scaleY(1.14) scaleX(0.86) translateY(-2px);opacity:1;}
+  80%{transform:scaleY(0.95) scaleX(1.05) translateY(0px);opacity:0.96;}
+}
+.flame1{transform-origin:center bottom;animation:flicker 1.2s ease-in-out infinite;}
+.flame2{transform-origin:center bottom;animation:flicker2 1.5s ease-in-out infinite;}
+@keyframes glowPulse{0%,100%{opacity:0.35;}50%{opacity:0.6;}}
+.glow1{animation:glowPulse 1.2s ease-in-out infinite;}
+.glow2{animation:glowPulse 1.5s ease-in-out infinite;}
+
+/* ── BABY SECTION ── */
+.baby-section{padding:88px 24px;background:var(--cream);}
+.baby-inner{max-width:980px;margin:0 auto;}
+.baby-heading{
+  font-family:'Caveat',cursive;
+  font-size:clamp(30px,5.5vw,52px);font-weight:700;
+  color:var(--ink);margin-bottom:40px;line-height:1.2;
+}
+.baby-heading em{color:var(--red);font-style:normal;}
+.baby-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:20px;}
+.baby-card img{
+  width:100%;aspect-ratio:3/4;object-fit:cover;
+  border-radius:14px;box-shadow:0 2px 18px rgba(30,20,8,0.09);
+}
+.baby-ph{
+  width:100%;aspect-ratio:3/4;background:var(--cream2);border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+}
+.baby-ph span{font-family:'Caveat',cursive;font-size:13px;color:var(--dust);text-align:center;padding:12px;}
+.baby-cap{
+  font-family:'Caveat',cursive;font-size:16px;font-weight:500;
+  color:var(--mid);margin-top:10px;line-height:1.4;padding:0 4px;
+}
+.baby-cap.ph{color:var(--dust);font-style:italic;}
+
+/* ── SONG ── */
+.song-section{
+  padding:100px 24px;text-align:center;
+  background:var(--ink);position:relative;overflow:hidden;
+}
+.song-doodles{position:absolute;inset:0;pointer-events:none;opacity:0.07;}
+.song-eyebrow{
+  font-family:'Caveat',cursive;font-size:17px;font-weight:500;
+  color:rgba(253,249,243,0.3);margin-bottom:18px;position:relative;
+}
+.song-title{
+  font-family:'Pacifico',cursive;
+  font-size:clamp(44px,11vw,108px);
+  color:var(--cream);line-height:0.95;margin-bottom:10px;position:relative;
+}
+.song-artist{
+  font-family:'Caveat',cursive;font-size:19px;font-weight:400;
+  color:rgba(253,249,243,0.3);margin-bottom:40px;position:relative;
+}
+.song-note{
+  font-family:'Caveat',cursive;font-size:22px;font-weight:400;
+  color:rgba(253,249,243,0.5);max-width:440px;margin:0 auto;
+  line-height:1.7;position:relative;
+}
+.song-note em{color:var(--red-pale);font-style:normal;}
+
+/* ── LETTER ── */
+.letter-section{padding:100px 24px;background:var(--cream2);}
+.letter-wrap{max-width:620px;margin:0 auto;}
+.letter-card{
+  background:var(--white);border-radius:20px;
+  padding:52px 48px;
+  box-shadow:0 4px 40px rgba(30,20,8,0.07);
+  position:relative;overflow:hidden;
+}
+.letter-card::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(
+    transparent,transparent 31px,rgba(58,107,181,0.04) 31px,rgba(58,107,181,0.04) 32px
+  );border-radius:20px;pointer-events:none;
+}
+.letter-date{
+  font-family:'Caveat',cursive;font-size:15px;font-weight:500;
+  color:var(--dust);margin-bottom:28px;text-align:right;position:relative;
+}
+.letter-greeting{
+  font-family:'Caveat',cursive;font-size:30px;font-weight:700;
+  color:var(--ink);margin-bottom:22px;position:relative;
+}
+.letter-greeting em{color:var(--red);font-style:normal;}
+.letter-body{
+  font-family:'Nunito',sans-serif;font-size:16.5px;font-weight:400;
+  line-height:1.95;color:var(--ink);position:relative;
+}
+.letter-body p{margin-bottom:18px;}
+.letter-body .hl{font-weight:600;}
+.letter-sign{
+  margin-top:36px;padding-top:24px;
+  border-top:1.5px dashed var(--cream3);position:relative;
+}
+.sign-always{
+  font-family:'Nunito',sans-serif;font-size:15px;font-weight:400;
+  color:var(--mid);margin-bottom:6px;
+}
+.sign-love{
+  font-family:'Caveat',cursive;font-size:30px;font-weight:700;color:var(--red);
+}
+.sign-bday{
+  font-family:'Caveat',cursive;font-size:18px;font-weight:400;
+  color:var(--mid);margin-top:10px;line-height:1.5;
+}
+
+/* ── SOLO ── */
+.solo-section{padding:88px 24px;background:var(--cream);}
+.solo-inner{max-width:980px;margin:0 auto;}
+
+/* ── FOOTER ── */
+.site-footer{
+  background:var(--ink);padding:100px 24px 80px;
+  text-align:center;position:relative;overflow:hidden;
+}
+.footer-doodles{position:absolute;inset:0;pointer-events:none;opacity:0.06;}
+.footer-name{
+  font-family:'Pacifico',cursive;
+  font-size:clamp(48px,13vw,130px);
+  color:rgba(253,249,243,0.07);margin-bottom:16px;position:relative;
+}
+.footer-date{
+  font-family:'Caveat',cursive;font-size:17px;font-weight:400;
+  color:rgba(253,249,243,0.2);margin-bottom:12px;position:relative;
+}
+.footer-hbd{
+  font-family:'Caveat',cursive;font-size:32px;font-weight:700;
+  color:rgba(253,249,243,0.5);position:relative;
+}
+.footer-hbd em{color:var(--red-pale);font-style:normal;}
+
+/* ── AUDIO PILL ── */
+#audio-pill{
+  position:fixed;bottom:20px;right:20px;z-index:100;
+  background:rgba(30,20,8,0.88);backdrop-filter:blur(12px);
+  color:var(--cream);font-family:'Caveat',cursive;font-size:15px;font-weight:500;
+  padding:11px 22px;border-radius:50px;cursor:pointer;
+  opacity:0;transition:opacity 0.6s;
+  display:flex;align-items:center;gap:8px;border:none;
+}
+#audio-pill.show{opacity:1;}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--red-pale);animation:pulse 1.4s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.15;}}
+
+@media(max-width:600px){
+  .photo-grid{grid-template-columns:1fr 1fr;}
+  .polaroid{margin:6px;}
+  .letter-card{padding:30px 20px;border-radius:14px;}
+  .cake-section{padding:60px 20px;}
+}
+</style>
+</head>
+<body>
+
+<!-- hidden YT player -->
+<div style="position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;" aria-hidden="true">
+  <div id="yt-player"></div>
+</div>
+<button id="audio-pill" onclick="toggleAudio()">
+  <span class="dot"></span>
+  <span id="audio-label">play our song</span>
+</button>
+
+<!-- ══ ENTRY ══ -->
+<div id="entry">
+  <!-- doodle decorations -->
+  <svg class="entry-doodles" viewBox="0 0 1000 700" preserveAspectRatio="xMidYMid slice" fill="none">
+    <!-- bunting -->
+    <path d="M60 55 Q300 25 500 48 Q700 70 940 38" stroke="#1e1408" stroke-width="1.8" stroke-linecap="round" opacity="0.13"/>
+    <polygon points="110,55 132,55 121,90" fill="#d94f5c" opacity="0.2"/>
+    <polygon points="155,50 177,50 166,85" fill="#3a6bb5" opacity="0.16"/>
+    <polygon points="200,54 222,54 211,89" fill="#1e1408" opacity="0.12"/>
+    <polygon points="660,52 682,52 671,87" fill="#d94f5c" opacity="0.16"/>
+    <polygon points="705,47 727,47 716,82" fill="#3a6bb5" opacity="0.14"/>
+    <polygon points="750,51 772,51 761,86" fill="#1e1408" opacity="0.11"/>
+    <!-- stars -->
+    <path d="M75 220 L79 234 L93 234 L82 243 L86 257 L75 248 L64 257 L68 243 L57 234 L71 234Z" fill="#d94f5c" opacity="0.13" class="float-a"/>
+    <path d="M928 180 L931 191 L942 191 L933 198 L936 209 L928 202 L920 209 L923 198 L914 191 L925 191Z" fill="#3a6bb5" opacity="0.13" class="float-b"/>
+    <path d="M900 480 L903 490 L913 490 L905 496 L908 506 L900 500 L892 506 L895 496 L887 490 L897 490Z" fill="#d94f5c" opacity="0.1" class="float-c"/>
+    <!-- hearts -->
+    <path d="M880 560 C880 548 895 542 895 554 C895 542 910 548 910 560 C910 575 895 584 895 584 C895 584 880 575 880 560Z" fill="#d94f5c" opacity="0.13" class="float-b"/>
+    <path d="M80 560 C80 550 93 545 93 555 C93 545 106 550 106 560 C106 573 93 580 93 580 C93 580 80 573 80 560Z" fill="#3a6bb5" opacity="0.11" class="float-a"/>
+    <!-- music notes -->
+    <text x="65" y="480" font-size="36" fill="#3a6bb5" opacity="0.11" class="float-c">♫</text>
+    <text x="910" y="420" font-size="30" fill="#d94f5c" opacity="0.1" class="float-a">♪</text>
+    <!-- balloon -->
+    <ellipse cx="105" cy="618" rx="18" ry="22" stroke="#d94f5c" stroke-width="1.5" fill="none" opacity="0.15" class="float-b"/>
+    <line x1="105" y1="640" x2="102" y2="665" stroke="#d94f5c" stroke-width="1.2" opacity="0.13"/>
+    <!-- gift -->
+    <rect x="874" y="604" width="38" height="32" rx="3" stroke="#3a6bb5" stroke-width="1.5" fill="none" opacity="0.14"/>
+    <line x1="893" y1="604" x2="893" y2="636" stroke="#3a6bb5" stroke-width="1.2" opacity="0.12"/>
+    <path d="M880 604 Q893 593 906 604" stroke="#3a6bb5" stroke-width="1.3" fill="none" opacity="0.13"/>
+    <!-- cake doodle -->
+    <rect x="460" y="620" width="80" height="48" rx="5" stroke="#d94f5c" stroke-width="1.5" fill="none" opacity="0.13"/>
+    <path d="M460 640 Q500 630 540 640" stroke="#d94f5c" stroke-width="1.3" fill="none" opacity="0.13"/>
+    <line x1="490" y1="620" x2="490" y2="608" stroke="#d94f5c" stroke-width="1.2" opacity="0.12"/>
+    <ellipse cx="490" cy="605" rx="4" ry="6" fill="#d94f5c" opacity="0.13" class="float-a"/>
+    <line x1="510" y1="620" x2="510" y2="608" stroke="#3a6bb5" stroke-width="1.2" opacity="0.12"/>
+    <ellipse cx="510" cy="605" rx="4" ry="6" fill="#3a6bb5" opacity="0.13" class="float-b"/>
+  </svg>
+
+  <div class="entry-eyebrow">7th May, 2025</div>
+  <div class="entry-title">Hi my sweet girl.<br><em>This one's for you.</em></div>
+  <div class="entry-sub">Do you want to see something I made for you?</div>
+  <div class="btn-row">
+    <button class="btn btn-yes" onclick="openSite()">Yes, please</button>
+    <button class="btn btn-no" id="noBtn" onmouseover="runAway(this)" onclick="openSite()">No thanks</button>
+  </div>
+</div>
+
+<!-- ══ MAIN ══ -->
+<div id="main">
+
+  <!-- HERO -->
+  <div class="hero">
+    <svg class="hero-doodles" viewBox="0 0 1000 700" preserveAspectRatio="xMidYMid slice" fill="none">
+      <path d="M0 75 Q250 44 500 66 Q750 88 1000 55" stroke="#1e1408" stroke-width="1.8" stroke-linecap="round" opacity="0.1"/>
+      <polygon points="80,75 102,75 91,110" fill="#d94f5c" opacity="0.15" class="float-a"/>
+      <polygon points="128,68 150,68 139,103" fill="#3a6bb5" opacity="0.13" class="float-b"/>
+      <polygon points="176,73 198,73 187,108" fill="#1e1408" opacity="0.1" class="float-c"/>
+      <polygon points="620,70 642,70 631,105" fill="#d94f5c" opacity="0.13" class="float-b"/>
+      <polygon points="668,63 690,63 679,98" fill="#3a6bb5" opacity="0.12" class="float-a"/>
+      <path d="M45 310 L50 326 L66 326 L53 336 L58 352 L45 342 L32 352 L37 336 L24 326 L40 326Z" fill="#d94f5c" opacity="0.1" class="float-c"/>
+      <path d="M952 240 L956 252 L968 252 L958 260 L962 272 L952 264 L942 272 L946 260 L936 252 L948 252Z" fill="#3a6bb5" opacity="0.1" class="float-a"/>
+      <text x="930" y="380" font-size="44" fill="#d94f5c" opacity="0.08" class="float-b">♪</text>
+      <text x="36" y="530" font-size="38" fill="#3a6bb5" opacity="0.08" class="float-c">♫</text>
+      <path d="M916 580 C916 566 932 560 932 574 C932 560 948 566 948 580 C948 596 932 606 932 606 C932 606 916 596 916 580Z" fill="#d94f5c" opacity="0.09" class="float-a"/>
+      <path d="M50 600 C50 589 63 583 63 594 C63 583 76 589 76 600 C76 613 63 620 63 620 C63 620 50 613 50 600Z" fill="#3a6bb5" opacity="0.08" class="float-b"/>
+      <ellipse cx="965" cy="618" rx="20" ry="24" stroke="#3a6bb5" stroke-width="1.5" fill="none" opacity="0.1" class="float-c"/>
+      <line x1="965" y1="642" x2="962" y2="668" stroke="#3a6bb5" stroke-width="1.2" opacity="0.09"/>
+    </svg>
+    <div class="hero-eyebrow reveal">a birthday website — made with love</div>
+    <div class="hero-name reveal" style="transition-delay:0.1s">Yashaswani<span>.</span></div>
+    <div class="hero-sub reveal" style="transition-delay:0.18s">turning twenty two &nbsp;·&nbsp; 7th May 2025</div>
+    <div class="scroll-hint">
+      <span>scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </div>
+
+  <!-- WHERE IT STARTED -->
+  <div class="section">
+    <div class="section-label reveal">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 2L12.8 8.2H19L14 12L15.8 18.2L11 15L6.2 18.2L8 12L3 8.2H9.2Z" stroke="#d94f5c" stroke-width="1.5" fill="none"/></svg>
+      where it all started
+    </div>
+    <div class="photo-grid stagger">
+      <div class="polaroid reveal" style="--r:-2.5deg"><img src="photo_1.jpg" alt="" onerror="this.outerHTML='<div class=\'photo-ph\'><span>photo_1.jpg</span></div>'"><div class="polaroid-cap"><span class="cap-ph">[ your caption ]</span></div></div>
+      <div class="polaroid reveal" style="--r:1.8deg"><img src="photo_2.jpg" alt="" onerror="this.outerHTML='<div class=\'photo-ph\'><span>photo_2.jpg</span></div>'"><div class="polaroid-cap"><span class="cap-ph">[ your caption ]</span></div></div>
+      <div class="polaroid reveal" style="--r:-1.2deg"><img src="photo_3.jpg" alt="" onerror="this.outerHTML='<div class=\'photo-ph\'><span>photo_3.jpg</span></div>'"><div class="polaroid-cap"><span class="cap-ph">[ your caption ]</span></div></div>
+    </div>
+  </div>
+
+  <!-- US ALWAYS -->
+  <div class="section" style="padding-top:0">
+    <div class="section-label reveal">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 19C11 19 2 13 2 7.5C2 5 4 3 6.5 3C8 3 9.5 3.8 11 5.5C12.5 3.8 14 3 15.5 3C18 3 20 5 20 7.5C20 13 11 19 11 19Z" stroke="#d94f5c" stroke-width="1.5" fill="none"/></svg>
+      us, always
+    </div>
+    <div class="photo-grid stagger">
+      <div class="polaroid reveal" style="--r:2.2deg"><img src="photo_4.jpg" alt="" onerror="this.outerHTML='<div class=\'photo-ph\'><span>photo_4.jpg</span></div>'"><div class="polaroid-cap"><span class="cap-ph">[ your caption ]</span></div></div>
+      <div class="polaroid reveal" style="--r:-2.8deg"><img src="photo_5.jpg" alt="" onerror="this.outerHTML='<div class=\'photo-ph\'><span>photo_5.jpg</span></div>'"><div class="polaroid-cap"><span class="cap-ph">[ your caption ]</span></div></div>
+      <div class="polaroid reveal" style="--r:1.2deg"><img src="photo_6.jpg" alt="" onerror="this.outerHTML='<div class=\'photo-ph\'><span>photo_6.jpg</span></div>'"><div class="polaroid-cap"><span class="cap-ph">[ your caption ]</span></div></div>
+      <div class="polaroid reveal" style="--r:-1.8deg"><img src="photo_7.jpg" alt="" onerror="this.outerHTML='<div class=\'photo-ph\'><span>photo_7.jpg</span></div>'"><div class="polaroid-cap"><span class="cap-ph">[ your caption ]</span></div></div>
+      <div class="polaroid reveal" style="--r:2.6deg"><img src="photo_8.jpg" alt="" onerror="this.outerHTML='<div class=\'photo-ph\'><span>photo_8.jpg</span></div>'"><div class="polaroid-cap"><span class="cap-ph">[ your caption ]</span></div></div>
+      <div class="polaroid reveal" style="--r:-2.2deg"><img src="photo_9.jpg" alt="" onerror="this.outerHTML='<div class=\'photo-ph\'><span>photo_9.jpg</span></div>'"><div class="polaroid-cap"><span class="cap-ph">[ your caption ]</span></div></div>
+      <div class="polaroid reveal" style="--r:1.6deg"><img src="photo_10.jpg" alt="" onerror="this.outerHTML='<div class=\'photo-ph\'><span>photo_10.jpg</span></div>'"><div class="polaroid-cap"><span class="cap-ph">[ your caption ]</span></div></div>
+      <div class="polaroid reveal" style="--r:-1.4deg"><img src="photo_11.jpg" alt="" onerror="this.outerHTML='<div class=\'photo-ph\'><span>photo_11.jpg</span></div>'"><div class="polaroid-cap"><span class="cap-ph">[ your caption ]</span></div></div>
+    </div>
+  </div>
+
+  <!-- BIRTHDAY CAKE -->
+  <div class="cake-section">
+    <div class="cake-label reveal">Happy Birthday,</div>
+    <div class="cake-22 reveal" style="transition-delay:0.08s">Yashaswani</div>
+    <div class="cake-sub reveal" style="transition-delay:0.14s">turning 22 today</div>
+
+    <!-- animated SVG cake -->
+    <svg class="reveal" style="transition-delay:0.2s;max-width:320px;width:100%;" viewBox="0 0 320 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+      <!-- candle 1 glow -->
+      <ellipse class="glow1" cx="112" cy="98" rx="18" ry="10" fill="#ffd54f" opacity="0.35"/>
+      <!-- candle 2 glow -->
+      <ellipse class="glow2" cx="208" cy="98" rx="18" ry="10" fill="#ffd54f" opacity="0.35"/>
+
+      <!-- flame 1 -->
+      <g class="flame1" style="transform-origin:112px 110px">
+        <ellipse cx="112" cy="100" rx="8" ry="13" fill="#ff9800"/>
+        <ellipse cx="112" cy="103" rx="5" ry="9" fill="#ffd54f"/>
+        <ellipse cx="112" cy="107" rx="2.5" ry="4" fill="#fff9c4"/>
+      </g>
+      <!-- flame 2 -->
+      <g class="flame2" style="transform-origin:208px 110px">
+        <ellipse cx="208" cy="100" rx="8" ry="13" fill="#ff9800"/>
+        <ellipse cx="208" cy="103" rx="5" ry="9" fill="#ffd54f"/>
+        <ellipse cx="208" cy="107" rx="2.5" ry="4" fill="#fff9c4"/>
+      </g>
+
+      <!-- candle 1 body (number "2") -->
+      <rect x="104" y="113" width="16" height="44" rx="4" fill="#f2a0a8"/>
+      <text x="112" y="142" text-anchor="middle" font-family="Pacifico,cursive" font-size="20" fill="#fff" opacity="0.9">2</text>
+      <!-- candle 2 body (number "2") -->
+      <rect x="200" y="113" width="16" height="44" rx="4" fill="#a0b8f2"/>
+      <text x="208" y="142" text-anchor="middle" font-family="Pacifico,cursive" font-size="20" fill="#fff" opacity="0.9">2</text>
+
+      <!-- cake top tier -->
+      <rect x="72" y="157" width="176" height="48" rx="8" fill="#f2a0a8"/>
+      <!-- top tier frosting drips -->
+      <path d="M72 165 Q88 175 104 165 Q120 175 136 165 Q152 175 168 165 Q184 175 200 165 Q216 175 232 165 Q248 175 248 165" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.6"/>
+      <!-- decoration dots top tier -->
+      <circle cx="100" cy="181" r="4" fill="#fff" opacity="0.5"/>
+      <circle cx="130" cy="174" r="3" fill="#fff" opacity="0.4"/>
+      <circle cx="160" cy="181" r="4" fill="#fff" opacity="0.5"/>
+      <circle cx="190" cy="174" r="3" fill="#fff" opacity="0.4"/>
+      <circle cx="220" cy="181" r="4" fill="#fff" opacity="0.5"/>
+
+      <!-- cake bottom tier -->
+      <rect x="48" y="205" width="224" height="60" rx="8" fill="#d94f5c"/>
+      <!-- bottom tier frosting drips -->
+      <path d="M48 215 Q68 228 88 215 Q108 228 128 215 Q148 228 168 215 Q188 228 208 215 Q228 228 248 215 Q268 228 272 215" stroke="#f2a0a8" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.5"/>
+      <!-- wavy bottom trim -->
+      <path d="M48 257 Q68 265 88 257 Q108 265 128 257 Q148 265 168 257 Q188 265 208 257 Q228 265 248 257 Q268 265 272 257" stroke="#f2a0a8" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.5"/>
+      <!-- dots bottom tier -->
+      <circle cx="90" cy="232" r="5" fill="#fff" opacity="0.22"/>
+      <circle cx="130" cy="240" r="4" fill="#fff" opacity="0.18"/>
+      <circle cx="160" cy="232" r="5" fill="#fff" opacity="0.22"/>
+      <circle cx="190" cy="240" r="4" fill="#fff" opacity="0.18"/>
+      <circle cx="230" cy="232" r="5" fill="#fff" opacity="0.22"/>
+
+      <!-- cake base plate -->
+      <ellipse cx="160" cy="265" rx="120" ry="10" fill="#ece4d5"/>
+      <ellipse cx="160" cy="265" rx="120" ry="10" fill="none" stroke="#c4b8a0" stroke-width="1.5"/>
+
+      <!-- small stars around -->
+      <path d="M38 170 L40 177 L47 177 L41 181 L43 188 L38 184 L33 188 L35 181 L29 177 L36 177Z" fill="#d94f5c" opacity="0.25"/>
+      <path d="M282 175 L284 181 L290 181 L285 185 L287 191 L282 187 L277 191 L279 185 L274 181 L280 181Z" fill="#3a6bb5" opacity="0.22"/>
+      <path d="M50 240 L51.5 245 L57 245 L52.5 248 L54 253 L50 250 L46 253 L47.5 248 L43 245 L48.5 245Z" fill="#3a6bb5" opacity="0.2"/>
+      <path d="M270 230 L271.5 235 L277 235 L272.5 238 L274 243 L270 240 L266 243 L267.5 238 L263 235 L268.5 235Z" fill="#d94f5c" opacity="0.2"/>
+
+      <!-- sparkle marks -->
+      <line x1="55" y1="150" x2="60" y2="145" stroke="#ffd54f" stroke-width="1.5" opacity="0.5"/>
+      <line x1="57" y1="148" x2="58" y2="148" stroke="#ffd54f" stroke-width="1.5" opacity="0.5"/>
+      <line x1="265" y1="145" x2="270" y2="150" stroke="#ffd54f" stroke-width="1.5" opacity="0.5"/>
+      <line x1="268" y1="148" x2="268" y2="148" stroke="#ffd54f" stroke-width="1.5" opacity="0.5"/>
+    </svg>
+  </div>
+
+  <!-- BABY SECTION -->
+  <div class="baby-section">
+    <div class="baby-inner">
+      <div class="section-label reveal">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="8.5" stroke="#d94f5c" stroke-width="1.5"/><path d="M8 12 Q11 15 14 12" stroke="#1e1408" stroke-width="1.5" stroke-linecap="round" fill="none"/><circle cx="8.5" cy="9.5" r="1.2" fill="#1e1408"/><circle cx="13.5" cy="9.5" r="1.2" fill="#1e1408"/></svg>
+        before I knew her
+      </div>
+      <div class="baby-heading reveal">she was always <em>this girl.</em></div>
+      <div class="baby-grid stagger">
+        <div class="baby-card reveal"><img src="photo_12.jpg" alt="" onerror="this.outerHTML='<div class=\'baby-ph\'><span>photo_12.jpg</span></div>'"><div class="baby-cap ph">[ your caption ]</div></div>
+        <div class="baby-card reveal"><img src="photo_13.jpg" alt="" onerror="this.outerHTML='<div class=\'baby-ph\'><span>photo_13.jpg</span></div>'"><div class="baby-cap ph">[ your caption ]</div></div>
+        <div class="baby-card reveal"><img src="photo_14.jpg" alt="" onerror="this.outerHTML='<div class=\'baby-ph\'><span>photo_14.jpg</span></div>'"><div class="baby-cap ph">[ your caption ]</div></div>
+        <div class="baby-card reveal"><img src="photo_15.jpg" alt="" onerror="this.outerHTML='<div class=\'baby-ph\'><span>photo_15.jpg</span></div>'"><div class="baby-cap ph">[ your caption ]</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HER NOW -->
+  <div class="solo-section">
+    <div class="solo-inner">
+      <div class="section-label reveal">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 2L12.8 8.2H19L14 12L15.8 18.2L11 15L6.2 18.2L8 12L3 8.2H9.2Z" stroke="#3a6bb5" stroke-width="1.5" fill="none"/></svg>
+        and now, she is this
+      </div>
+      <div class="photo-grid stagger" style="grid-template-columns:repeat(auto-fill,minmax(200px,1fr))">
+        <div class="polaroid reveal" style="--r:-1.8deg"><img src="photo_16.jpg" alt="" onerror="this.outerHTML='<div class=\'photo-ph\'><span>photo_16.jpg</span></div>'"><div class="polaroid-cap"><span class="cap-ph">[ your caption ]</span></div></div>
+        <div class="polaroid reveal" style="--r:2.2deg"><img src="photo_17.jpg" alt="" onerror="this.outerHTML='<div class=\'photo-ph\'><span>photo_17.jpg</span></div>'"><div class="polaroid-cap"><span class="cap-ph">[ your caption ]</span></div></div>
+        <div class="polaroid reveal" style="--r:-1.2deg"><img src="photo_18.jpg" alt="" onerror="this.outerHTML='<div class=\'photo-ph\'><span>photo_18.jpg</span></div>'"><div class="polaroid-cap"><span class="cap-ph">[ your caption ]</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SONG -->
+  <div class="song-section">
+    <svg class="song-doodles" viewBox="0 0 1000 400" preserveAspectRatio="xMidYMid slice" fill="none">
+      <text x="40" y="200" font-size="90" fill="#fff" font-family="serif">♪</text>
+      <text x="860" y="310" font-size="70" fill="#fff" font-family="serif">♫</text>
+      <text x="460" y="370" font-size="55" fill="#fff" font-family="serif">♩</text>
+      <path d="M80 90 L84 104 L98 104 L87 113 L91 127 L80 118 L69 127 L73 113 L62 104 L76 104Z" fill="#fff"/>
+      <path d="M920 70 L923 82 L935 82 L925 89 L929 101 L920 94 L911 101 L915 89 L905 82 L917 82Z" fill="#fff"/>
+    </svg>
+    <div class="song-eyebrow reveal">Spotify says this is our song</div>
+    <div class="song-title reveal" style="transition-delay:0.08s">Take On Me</div>
+    <div class="song-artist reveal" style="transition-delay:0.14s">A-ha · 1985</div>
+    <div class="song-note reveal" style="transition-delay:0.2s">
+      "Shying away, I'll be coming for your love, OK.<br>
+      <em>Take on me, take me on."</em><br><br>
+      feels right.
+    </div>
+  </div>
+
+  <!-- LETTER -->
+  <div class="letter-section">
+    <div class="letter-wrap">
+      <div class="section-label reveal">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="4" width="18" height="14" rx="2" stroke="#d94f5c" stroke-width="1.5"/><path d="M2 8 L11 13 L20 8" stroke="#d94f5c" stroke-width="1.5" stroke-linecap="round"/></svg>
+        a letter
+      </div>
+      <div class="letter-card reveal">
+        <div class="letter-date">7th May, 2025</div>
+        <div class="letter-greeting">Hi <em>Yash</em>,</div>
+        <div class="letter-body">
+          <p>It's your birthday.</p>
+          <p>I am so glad you were born on this day, and I feel so lucky to be able to experience life with you.</p>
+          <p>I know it has been very difficult for you lately, and I know you don't like celebrating your birthday — but I really want you to enjoy this day. Because it is your day, and you should live every day like it's your birthday. You deserve to be happy and to always have a smile on your face, just like you help everyone else smile all the time.</p>
+          <p>You are the most beautiful, loving, caring, interesting and bravest human being I have ever met. <span class="hl">Everyone is very lucky to have you in their lives.</span></p>
+          <p><span class="hl">And I am the luckiest of them all.</span></p>
+        </div>
+        <div class="letter-sign">
+          <div class="sign-always">Always here for you.</div>
+          <div class="sign-love">I love you.</div>
+          <div class="sign-bday">Happiest Birthday to my sweet girl.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="site-footer">
+    <svg class="footer-doodles" viewBox="0 0 1000 400" preserveAspectRatio="xMidYMid slice" fill="none">
+      <path d="M40 70 Q500 35 960 70" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/>
+      <polygon points="140,70 162,70 151,102" fill="#fff"/>
+      <polygon points="190,64 212,64 201,96" fill="#fff"/>
+      <polygon points="680,67 702,67 691,99" fill="#fff"/>
+      <polygon points="730,61 752,61 741,93" fill="#fff"/>
+      <path d="M48 320 C48 308 62 302 62 314 C62 302 76 308 76 320 C76 334 62 342 62 342 C62 342 48 334 48 320Z" fill="#fff"/>
+      <path d="M924 300 C924 290 936 284 936 296 C936 284 948 290 948 300 C948 312 936 319 936 319 C936 319 924 312 924 300Z" fill="#fff"/>
+      <text x="440" y="360" font-size="40" fill="#fff" font-family="serif">♪</text>
+    </svg>
+    <div class="footer-name reveal">Yashaswani.</div>
+    <div class="footer-date reveal" style="transition-delay:0.08s">7th May, 2025</div>
+    <div class="footer-hbd reveal" style="transition-delay:0.14s">Happy Birthday, <em>Bubu.</em></div>
+  </div>
+
+</div><!-- end #main -->
+
+<script>
+/* ── ENTRY ── */
+function runAway(btn){
+  const x=(Math.random()>0.5?1:-1)*(44+Math.random()*88);
+  const y=(Math.random()>0.5?1:-1)*(28+Math.random()*64);
+  const r=(Math.random()-0.5)*38;
+  btn.style.setProperty('--rx',x+'px');
+  btn.style.setProperty('--ry',y+'px');
+  btn.style.setProperty('--rr',r+'deg');
+}
+
+function openSite(){
+  document.getElementById('entry').classList.add('leaving');
+  setTimeout(()=>{
+    document.getElementById('entry').style.display='none';
+    const main=document.getElementById('main');
+    main.classList.add('visible');
+    document.getElementById('audio-pill').classList.add('show');
+    window.scrollTo(0,0);
+    initObserver();
+    // trigger hero reveals immediately
+    document.querySelectorAll('.hero .reveal').forEach((el,i)=>{
+      setTimeout(()=>el.classList.add('visible'),80+i*80);
+    });
+    autoPlay();
+  },820);
+}
+
+/* ── SCROLL OBSERVER ── */
+function initObserver(){
+  const els=document.querySelectorAll('#main .reveal');
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}
+    });
+  },{threshold:0.1,rootMargin:'0px 0px -36px 0px'});
+  els.forEach(el=>obs.observe(el));
+}
+
+/* ── YOUTUBE ── */
+let ytPlayer=null,ytReady=false,playing=false,pendingPlay=false;
+const ytTag=document.createElement('script');
+ytTag.src='https://www.youtube.com/iframe_api';
+document.head.appendChild(ytTag);
+window.onYouTubeIframeAPIReady=function(){
+  ytPlayer=new YT.Player('yt-player',{
+    height:'1',width:'1',
+    videoId:'kmDBDn8Ju6w',
+    playerVars:{autoplay:0,loop:1,playlist:'kmDBDn8Ju6w',controls:0,fs:0,rel:0,disablekb:1},
+    events:{
+      onReady:function(e){
+        ytReady=true;e.target.setVolume(35);
+        if(pendingPlay){e.target.playVideo();setPlaying(true);pendingPlay=false;}
+      }
+    }
+  });
+};
+function setPlaying(s){
+  playing=s;
+  document.getElementById('audio-label').textContent=s?'now playing — take on me':'play our song';
+}
+function autoPlay(){
+  if(ytReady){ytPlayer.playVideo();setPlaying(true);}
+  else{pendingPlay=true;}
+}
+function toggleAudio(){
+  if(!ytReady){pendingPlay=!pendingPlay;return;}
+  if(playing){ytPlayer.pauseVideo();setPlaying(false);}
+  else{ytPlayer.playVideo();setPlaying(true);}
+}
+</script>
+</body>
+</html>
