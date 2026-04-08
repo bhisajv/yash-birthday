@@ -400,28 +400,31 @@ body{background:var(--bg);font-family:'Instrument Sans',sans-serif;overflow-x:hi
 
 /* ── CAKE SECTION ── */
 .cake-section{
-  padding:100px 72px;
+  padding:100px 40px 120px;
   background:var(--bg2);
-  display:grid;grid-template-columns:1fr 1fr;
-  align-items:center;gap:80px;
+  display:flex;flex-direction:column;
+  align-items:center;
+  text-align:center;
+  gap:32px;
 }
-.cake-left{}
 .cake-eyebrow{
   font-family:'Instrument Sans',sans-serif;
-  font-size:10px;font-weight:600;letter-spacing:0.3em;text-transform:uppercase;
-  color:var(--dust);margin-bottom:20px;
+  font-size:11px;font-weight:600;letter-spacing:0.3em;text-transform:uppercase;
+  color:var(--dust);
 }
 .cake-heading{
   font-family:'DM Serif Display',serif;
-  font-size:clamp(48px,8vw,96px);
+  font-size:clamp(56px,10vw,120px);
   font-weight:400;font-style:italic;
-  color:var(--red);line-height:0.95;margin-bottom:16px;
+  color:var(--red);line-height:0.95;
 }
-.cake-sub{
-  font-family:'Caveat',cursive;font-size:22px;font-weight:500;
-  color:var(--mid);
+.cake-make-wish{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(28px,4vw,48px);
+  font-weight:400;font-style:italic;
+  color:var(--mid);margin-top:8px;
+  letter-spacing:0.01em;
 }
-.cake-right{display:flex;justify-content:center;}
 
 /* candles */
 @keyframes flicker{0%,100%{transform:scaleY(1) scaleX(1);opacity:1;}30%{transform:scaleY(1.14) scaleX(0.86) translateY(-2px);opacity:0.9;}65%{transform:scaleY(0.9) scaleX(1.1) translateY(1px);opacity:1;}}
@@ -432,10 +435,6 @@ body{background:var(--bg);font-family:'Instrument Sans',sans-serif;overflow-x:hi
 .glow1{animation:glowPulse 1.2s ease-in-out infinite;}
 .glow2{animation:glowPulse 1.55s ease-in-out infinite;}
 
-@media(max-width:800px){
-  .cake-section{grid-template-columns:1fr;gap:40px;padding:72px 24px;text-align:center;}
-  .cake-right{margin-top:0;}
-}
 
 /* ── FOOTER ── */
 .site-footer{
@@ -640,15 +639,13 @@ body{background:var(--bg);font-family:'Instrument Sans',sans-serif;overflow-x:hi
     </div>
   </div>
 
-  <!-- CAKE — editorial two-column -->
+  <!-- CAKE -->
   <div class="cake-section">
-    <div class="cake-left">
-      <div class="cake-eyebrow reveal">happy birthday</div>
-      <div class="cake-heading reveal" style="transition-delay:0.08s">Yash.</div>
-      <div class="cake-sub reveal" style="transition-delay:0.16s">turning 22 today</div>
-    </div>
-    <div class="cake-right reveal" style="transition-delay:0.1s">
-      <svg viewBox="0 0 320 300" fill="none" style="max-width:300px;width:100%;">
+    <div class="cake-eyebrow reveal">7th May, 2025</div>
+    <div class="cake-heading reveal" style="transition-delay:0.08s">Happy Birthday,<br>Yash.</div>
+
+    <div class="reveal" style="transition-delay:0.16s">
+      <svg viewBox="0 0 320 300" fill="none" style="max-width:280px;width:100%;margin:0 auto;display:block;">
         <ellipse class="glow1" cx="112" cy="98" rx="20" ry="11" fill="#ffd54f" opacity="0.3"/>
         <ellipse class="glow2" cx="208" cy="98" rx="20" ry="11" fill="#ffd54f" opacity="0.3"/>
         <g class="flame1" style="transform-origin:112px 113px">
@@ -684,26 +681,10 @@ body{background:var(--bg);font-family:'Instrument Sans',sans-serif;overflow-x:hi
         <path d="M282 177 L284 184 L291 184 L286 188 L288 195 L282 191 L276 195 L278 188 L273 184 L280 184Z" fill="#2a4f8a" opacity="0.2"/>
       </svg>
     </div>
+
+    <div class="cake-make-wish reveal" style="transition-delay:0.28s">make a wish.</div>
   </div>
 
-  <!-- FOOTER -->
-  <div class="site-footer">
-    <svg class="footer-doodles" viewBox="0 0 1200 500" preserveAspectRatio="xMidYMid slice" fill="none">
-      <path d="M40 70 Q600 35 1160 70" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/>
-      <polygon points="160,70 182,70 171,104" fill="#fff"/>
-      <polygon points="210,64 232,64 221,98" fill="#fff"/>
-      <polygon points="800,67 822,67 811,101" fill="#fff"/>
-      <polygon points="850,61 872,61 861,95" fill="#fff"/>
-      <path d="M50 380 C50 368 64 362 64 374 C64 362 78 368 78 380 C78 394 64 402 64 402C64 402 50 394 50 380Z" fill="#fff"/>
-      <path d="M1140 360 C1140 350 1152 344 1152 356 C1152 344 1164 350 1164 360 C1164 372 1152 379 1152 379C1152 379 1140 372 1140 360Z" fill="#fff"/>
-      <text x="540" y="460" font-size="44" fill="#fff" font-family="serif">♪</text>
-    </svg>
-    <div class="footer-inner">
-      <div class="footer-name reveal">Yashaswani.</div>
-      <div class="footer-date reveal" style="transition-delay:0.08s">7th May, 2025</div>
-      <div class="footer-hbd reveal" style="transition-delay:0.14s">Happy Birthday, <em>Bubu.</em></div>
-    </div>
-  </div>
 
 </div>
 
