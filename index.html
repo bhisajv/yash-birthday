@@ -51,24 +51,54 @@ body{background:var(--cream);font-family:'Nunito',sans-serif;overflow-x:hidden;}
   display:flex;flex-direction:column;
   align-items:center;justify-content:center;
   position:relative;overflow:hidden;
-  background:var(--cream);padding:40px 24px;
-  transition:opacity 0.8s cubic-bezier(0.22,1,0.36,1);
+  padding:40px 24px;
+  transition:opacity 0.9s cubic-bezier(0.22,1,0.36,1);
 }
 #entry.leaving{opacity:0;pointer-events:none;}
-.entry-doodles{position:absolute;inset:0;pointer-events:none;}
-.entry-eyebrow{
+
+/* full bleed photo background */
+.entry-bg{
+  position:absolute;inset:0;z-index:0;
+  background:url('photo_24.png') center center / cover no-repeat;
+  transform:scale(1.04);
+  animation:bgReveal 1.4s cubic-bezier(0.22,1,0.36,1) forwards;
+  image-orientation:from-image;
+}
+@keyframes bgReveal{
+  0%{transform:scale(1.12);filter:blur(8px);opacity:0;}
+  100%{transform:scale(1.04);filter:blur(0px);opacity:1;}
+}
+/* warm dark overlay so text is readable */
+.entry-overlay{
+  position:absolute;inset:0;z-index:1;
+  background:linear-gradient(
+    to bottom,
+    rgba(20,10,5,0.45) 0%,
+    rgba(20,10,5,0.35) 40%,
+    rgba(20,10,5,0.6) 100%
+  );
+}
+.entry-content{
+  position:relative;z-index:3;
+  display:flex;flex-direction:column;
+  align-items:center;
+}
+.entry-doodles{position:absolute;inset:0;pointer-events:none;z-index:2;}
+
+.entry-date-tag{
   font-family:'Caveat',cursive;font-size:17px;font-weight:500;
-  color:var(--dust);margin-bottom:18px;text-align:center;letter-spacing:0.05em;
+  color:rgba(255,255,255,0.6);margin-bottom:18px;text-align:center;letter-spacing:0.08em;
 }
 .entry-title{
   font-family:'Caveat',cursive;
-  font-size:clamp(30px,6vw,56px);font-weight:700;
-  color:var(--ink);text-align:center;line-height:1.25;margin-bottom:10px;
+  font-size:clamp(32px,6.5vw,60px);font-weight:700;
+  color:#fff;text-align:center;line-height:1.25;margin-bottom:10px;
+  text-shadow:0 2px 20px rgba(0,0,0,0.3);
 }
-.entry-title em{color:var(--red);font-style:normal;}
+.entry-title em{color:var(--red-pale);font-style:normal;}
 .entry-sub{
   font-family:'Caveat',cursive;font-size:clamp(17px,3vw,22px);
-  color:var(--mid);text-align:center;margin-bottom:44px;line-height:1.5;
+  color:rgba(255,255,255,0.75);text-align:center;margin-bottom:44px;line-height:1.5;
 }
 .btn-row{display:flex;gap:16px;align-items:center;justify-content:center;flex-wrap:wrap;}
 .btn{
@@ -82,7 +112,7 @@ body{background:var(--cream);font-family:'Nunito',sans-serif;overflow-x:hidden;}
 .btn-yes:hover{background:#c23d4a;transform:translateY(-3px);box-shadow:0 8px 32px rgba(217,79,92,0.32);}
 .btn-no{
   background:transparent;color:var(--mid);
-  border:2px dashed var(--cream3);
+  border:2px dashed rgba(255,255,255,0.35);
   transition:all 0.35s ease;
 }
 .btn-no:hover{
@@ -225,6 +255,7 @@ body{background:var(--cream);font-family:'Nunito',sans-serif;overflow-x:hidden;}
 .baby-card img{
   width:100%;aspect-ratio:3/4;object-fit:cover;
   border-radius:14px;box-shadow:0 2px 18px rgba(30,20,8,0.09);
+  image-orientation:from-image;
 }
 .baby-ph{
   width:100%;aspect-ratio:3/4;background:var(--cream2);border-radius:14px;
@@ -368,50 +399,38 @@ body{background:var(--cream);font-family:'Nunito',sans-serif;overflow-x:hidden;}
 
 <!-- ══ ENTRY ══ -->
 <div id="entry">
+  <!-- full bleed photo background -->
+  <div class="entry-bg" id="entryBg"></div>
+  <div class="entry-overlay"></div>
+
+  <!-- animated content on top -->
+  <div class="entry-content">
+    <div class="entry-date-tag">7th May, 2025</div>
+    <div class="entry-title">Hi my sweet girl.<br><em>This one's for you.</em></div>
+    <div class="entry-sub">Do you want to see something I made for you?</div>
+    <div class="btn-row">
+      <button class="btn btn-yes" onclick="openSite()">Yes, please</button>
+      <button class="btn btn-no" id="noBtn" onmouseover="runAway(this)" onclick="runAway(this)">No thanks</button>
+    </div>
+    <div id="no-msg" style="margin-top:20px;font-family:'Caveat',cursive;font-size:18px;color:rgba(255,255,255,0.6);opacity:0;transition:opacity 0.6s ease;">nice try :)</div>
+  </div>
+
   <!-- doodle decorations -->
   <svg class="entry-doodles" viewBox="0 0 1000 700" preserveAspectRatio="xMidYMid slice" fill="none">
-    <!-- bunting -->
-    <path d="M60 55 Q300 25 500 48 Q700 70 940 38" stroke="#1e1408" stroke-width="1.8" stroke-linecap="round" opacity="0.13"/>
-    <polygon points="110,55 132,55 121,90" fill="#d94f5c" opacity="0.2"/>
-    <polygon points="155,50 177,50 166,85" fill="#3a6bb5" opacity="0.16"/>
-    <polygon points="200,54 222,54 211,89" fill="#1e1408" opacity="0.12"/>
-    <polygon points="660,52 682,52 671,87" fill="#d94f5c" opacity="0.16"/>
-    <polygon points="705,47 727,47 716,82" fill="#3a6bb5" opacity="0.14"/>
-    <polygon points="750,51 772,51 761,86" fill="#1e1408" opacity="0.11"/>
-    <!-- stars -->
-    <path d="M75 220 L79 234 L93 234 L82 243 L86 257 L75 248 L64 257 L68 243 L57 234 L71 234Z" fill="#d94f5c" opacity="0.13" class="float-a"/>
-    <path d="M928 180 L931 191 L942 191 L933 198 L936 209 L928 202 L920 209 L923 198 L914 191 L925 191Z" fill="#3a6bb5" opacity="0.13" class="float-b"/>
-    <path d="M900 480 L903 490 L913 490 L905 496 L908 506 L900 500 L892 506 L895 496 L887 490 L897 490Z" fill="#d94f5c" opacity="0.1" class="float-c"/>
-    <!-- hearts -->
-    <path d="M880 560 C880 548 895 542 895 554 C895 542 910 548 910 560 C910 575 895 584 895 584 C895 584 880 575 880 560Z" fill="#d94f5c" opacity="0.13" class="float-b"/>
-    <path d="M80 560 C80 550 93 545 93 555 C93 545 106 550 106 560 C106 573 93 580 93 580 C93 580 80 573 80 560Z" fill="#3a6bb5" opacity="0.11" class="float-a"/>
-    <!-- music notes -->
-    <text x="65" y="480" font-size="36" fill="#3a6bb5" opacity="0.11" class="float-c">♫</text>
-    <text x="910" y="420" font-size="30" fill="#d94f5c" opacity="0.1" class="float-a">♪</text>
-    <!-- balloon -->
-    <ellipse cx="105" cy="618" rx="18" ry="22" stroke="#d94f5c" stroke-width="1.5" fill="none" opacity="0.15" class="float-b"/>
-    <line x1="105" y1="640" x2="102" y2="665" stroke="#d94f5c" stroke-width="1.2" opacity="0.13"/>
-    <!-- gift -->
-    <rect x="874" y="604" width="38" height="32" rx="3" stroke="#3a6bb5" stroke-width="1.5" fill="none" opacity="0.14"/>
-    <line x1="893" y1="604" x2="893" y2="636" stroke="#3a6bb5" stroke-width="1.2" opacity="0.12"/>
-    <path d="M880 604 Q893 593 906 604" stroke="#3a6bb5" stroke-width="1.3" fill="none" opacity="0.13"/>
-    <!-- cake doodle -->
-    <rect x="460" y="620" width="80" height="48" rx="5" stroke="#d94f5c" stroke-width="1.5" fill="none" opacity="0.13"/>
-    <path d="M460 640 Q500 630 540 640" stroke="#d94f5c" stroke-width="1.3" fill="none" opacity="0.13"/>
-    <line x1="490" y1="620" x2="490" y2="608" stroke="#d94f5c" stroke-width="1.2" opacity="0.12"/>
-    <ellipse cx="490" cy="605" rx="4" ry="6" fill="#d94f5c" opacity="0.13" class="float-a"/>
-    <line x1="510" y1="620" x2="510" y2="608" stroke="#3a6bb5" stroke-width="1.2" opacity="0.12"/>
-    <ellipse cx="510" cy="605" rx="4" ry="6" fill="#3a6bb5" opacity="0.13" class="float-b"/>
+    <path d="M60 55 Q300 25 500 48 Q700 70 940 38" stroke="#fff" stroke-width="1.8" stroke-linecap="round" opacity="0.2"/>
+    <polygon points="110,55 132,55 121,90" fill="#fff" opacity="0.25"/>
+    <polygon points="155,50 177,50 166,85" fill="#fff" opacity="0.2"/>
+    <polygon points="200,54 222,54 211,89" fill="#fff" opacity="0.18"/>
+    <polygon points="660,52 682,52 671,87" fill="#fff" opacity="0.22"/>
+    <polygon points="705,47 727,47 716,82" fill="#fff" opacity="0.18"/>
+    <polygon points="750,51 772,51 761,86" fill="#fff" opacity="0.2"/>
+    <path d="M75 220 L79 234 L93 234 L82 243 L86 257 L75 248 L64 257 L68 243 L57 234 L71 234Z" fill="#fff" opacity="0.18" class="float-a"/>
+    <path d="M928 180 L931 191 L942 191 L933 198 L936 209 L928 202 L920 209 L923 198 L914 191 L925 191Z" fill="#fff" opacity="0.18" class="float-b"/>
+    <path d="M880 560 C880 548 895 542 895 554 C895 542 910 548 910 560 C910 575 895 584 895 584 C895 584 880 575 880 560Z" fill="#fff" opacity="0.2" class="float-b"/>
+    <path d="M80 560 C80 550 93 545 93 555 C93 545 106 550 106 560 C106 573 93 580 93 580 C93 580 80 573 80 560Z" fill="#fff" opacity="0.18" class="float-a"/>
+    <text x="65" y="480" font-size="36" fill="#fff" opacity="0.15" class="float-c">♫</text>
+    <text x="910" y="420" font-size="30" fill="#fff" opacity="0.15" class="float-a">♪</text>
   </svg>
-
-  <div class="entry-eyebrow">7th May, 2025</div>
-  <div class="entry-title">Hi my sweet girl.<br><em>This one's for you.</em></div>
-  <div class="entry-sub">Do you want to see something I made for you?</div>
-  <div class="btn-row">
-    <button class="btn btn-yes" onclick="openSite()">Yes, please</button>
-    <button class="btn btn-no" id="noBtn" onmouseover="runAway(this)" onclick="runAway(this)">No thanks</button>
-  </div>
-  <div id="no-msg" style="margin-top:20px;font-family:'Caveat',cursive;font-size:18px;color:var(--dust);opacity:0;transition:opacity 0.6s ease;">nice try :)</div>
 </div>
 
 <!-- ══ MAIN ══ -->
@@ -436,8 +455,7 @@ body{background:var(--cream);font-family:'Nunito',sans-serif;overflow-x:hidden;}
       <line x1="965" y1="642" x2="962" y2="668" stroke="#3a6bb5" stroke-width="1.2" opacity="0.09"/>
     </svg>
     <div class="hero-eyebrow reveal">a birthday website — made with love</div>
-    <div class="hero-name reveal" style="transition-delay:0.1s">Yashaswani<span>.</span></div>
-    <div class="hero-sub reveal" style="transition-delay:0.18s">turning twenty two &nbsp;·&nbsp; 7th May 2025</div>
+    <div class="hero-name reveal" style="transition-delay:0.1s;font-size:clamp(18px,4vw,36px);font-family:'Caveat',cursive;font-weight:500;color:var(--mid);letter-spacing:0.05em;">turning twenty two &nbsp;·&nbsp; 7th May 2025</div>
     <div class="scroll-hint">
       <span>scroll</span>
       <div class="scroll-line"></div>
@@ -486,10 +504,73 @@ body{background:var(--cream);font-family:'Nunito',sans-serif;overflow-x:hidden;}
     </div>
   </div>
 
+  <!-- BABY SECTION -->
+  <div class="baby-section">
+    <div class="baby-inner">
+      <div class="section-label reveal">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="8.5" stroke="#d94f5c" stroke-width="1.5"/><path d="M8 12 Q11 15 14 12" stroke="#1e1408" stroke-width="1.5" stroke-linecap="round" fill="none"/><circle cx="8.5" cy="9.5" r="1.2" fill="#1e1408"/><circle cx="13.5" cy="9.5" r="1.2" fill="#1e1408"/></svg>
+        before I knew her
+      </div>
+      <div class="baby-heading reveal">she was always <em>this girl.</em></div>
+      <div class="baby-grid stagger">
+        <div class="baby-card reveal"><img src="photo_23.png" alt="" onerror="this.outerHTML='<div class=\'baby-ph\'><span>photo_23.png</span></div>'"><div class="baby-cap ph">[ your caption ]</div></div>
+        <div class="baby-card reveal"><img src="photo_24.png" alt="" onerror="this.outerHTML='<div class=\'baby-ph\'><span>photo_24.png</span></div>'"><div class="baby-cap ph">[ your caption ]</div></div>
+        <div class="baby-card reveal"><img src="photo_25.png" alt="" onerror="this.outerHTML='<div class=\'baby-ph\'><span>photo_25.png</span></div>'"><div class="baby-cap ph">[ your caption ]</div></div>
+        <div class="baby-card reveal"><img src="photo_26.png" alt="" onerror="this.outerHTML='<div class=\'baby-ph\'><span>photo_26.png</span></div>'"><div class="baby-cap ph">[ your caption ]</div></div>
+        <div class="baby-card reveal"><img src="photo_27.png" alt="" onerror="this.outerHTML='<div class=\'baby-ph\'><span>photo_27.png</span></div>'"><div class="baby-cap ph">[ your caption ]</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SONG -->
+  <div class="song-section">
+    <svg class="song-doodles" viewBox="0 0 1000 400" preserveAspectRatio="xMidYMid slice" fill="none">
+      <text x="40" y="200" font-size="90" fill="#fff" font-family="serif">♪</text>
+      <text x="860" y="310" font-size="70" fill="#fff" font-family="serif">♫</text>
+      <text x="460" y="370" font-size="55" fill="#fff" font-family="serif">♩</text>
+      <path d="M80 90 L84 104 L98 104 L87 113 L91 127 L80 118 L69 127 L73 113 L62 104 L76 104Z" fill="#fff"/>
+      <path d="M920 70 L923 82 L935 82 L925 89 L929 101 L920 94 L911 101 L915 89 L905 82 L917 82Z" fill="#fff"/>
+    </svg>
+    <div class="song-eyebrow reveal">Spotify says this is our song</div>
+    <div class="song-title reveal" style="transition-delay:0.08s">Take On Me</div>
+    <div class="song-artist reveal" style="transition-delay:0.14s">A-ha · 1985</div>
+    <div class="song-note reveal" style="transition-delay:0.2s">
+      "Shying away, I'll be coming for your love, OK.<br>
+      <em>Take on me, take me on."</em><br><br>
+      feels right.
+    </div>
+  </div>
+
+  <!-- LETTER -->
+  <div class="letter-section">
+    <div class="letter-wrap">
+      <div class="section-label reveal">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="4" width="18" height="14" rx="2" stroke="#d94f5c" stroke-width="1.5"/><path d="M2 8 L11 13 L20 8" stroke="#d94f5c" stroke-width="1.5" stroke-linecap="round"/></svg>
+        a letter
+      </div>
+      <div class="letter-card reveal">
+        <div class="letter-date">7th May, 2025</div>
+        <div class="letter-greeting">Hi <em>Yash</em>,</div>
+        <div class="letter-body">
+          <p>It's your birthday.</p>
+          <p>I am so glad you were born on this day, and I feel so lucky to be able to experience life with you.</p>
+          <p>I know it has been very difficult for you lately, and I know you don't like celebrating your birthday — but I really want you to enjoy this day. Because it is your day, and you should live every day like it's your birthday. You deserve to be happy and to always have a smile on your face, just like you help everyone else smile all the time.</p>
+          <p>You are the most beautiful, loving, caring, interesting and bravest human being I have ever met. <span class="hl">Everyone is very lucky to have you in their lives.</span></p>
+          <p><span class="hl">And I am the luckiest of them all.</span></p>
+        </div>
+        <div class="letter-sign">
+          <div class="sign-always">Always here for you.</div>
+          <div class="sign-love">I love you.</div>
+          <div class="sign-bday">Happiest Birthday to my sweet girl.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- BIRTHDAY CAKE -->
   <div class="cake-section">
     <div class="cake-label reveal">Happy Birthday,</div>
-    <div class="cake-22 reveal" style="transition-delay:0.08s">Yashaswani</div>
+    <div class="cake-22 reveal" style="transition-delay:0.08s">Yash</div>
     <div class="cake-sub reveal" style="transition-delay:0.14s">turning 22 today</div>
 
     <!-- animated SVG cake -->
@@ -560,69 +641,6 @@ body{background:var(--cream);font-family:'Nunito',sans-serif;overflow-x:hidden;}
       <line x1="265" y1="145" x2="270" y2="150" stroke="#ffd54f" stroke-width="1.5" opacity="0.5"/>
       <line x1="268" y1="148" x2="268" y2="148" stroke="#ffd54f" stroke-width="1.5" opacity="0.5"/>
     </svg>
-  </div>
-
-  <!-- BABY SECTION -->
-  <div class="baby-section">
-    <div class="baby-inner">
-      <div class="section-label reveal">
-        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="8.5" stroke="#d94f5c" stroke-width="1.5"/><path d="M8 12 Q11 15 14 12" stroke="#1e1408" stroke-width="1.5" stroke-linecap="round" fill="none"/><circle cx="8.5" cy="9.5" r="1.2" fill="#1e1408"/><circle cx="13.5" cy="9.5" r="1.2" fill="#1e1408"/></svg>
-        before I knew her
-      </div>
-      <div class="baby-heading reveal">she was always <em>this girl.</em></div>
-      <div class="baby-grid stagger">
-        <div class="baby-card reveal"><img src="photo_23.png" alt="" onerror="this.outerHTML='<div class=\'baby-ph\'><span>photo_23.png</span></div>'"><div class="baby-cap ph">[ your caption ]</div></div>
-        <div class="baby-card reveal"><img src="photo_24.png" alt="" onerror="this.outerHTML='<div class=\'baby-ph\'><span>photo_24.png</span></div>'"><div class="baby-cap ph">[ your caption ]</div></div>
-        <div class="baby-card reveal"><img src="photo_25.png" alt="" onerror="this.outerHTML='<div class=\'baby-ph\'><span>photo_25.png</span></div>'"><div class="baby-cap ph">[ your caption ]</div></div>
-        <div class="baby-card reveal"><img src="photo_26.png" alt="" onerror="this.outerHTML='<div class=\'baby-ph\'><span>photo_26.png</span></div>'"><div class="baby-cap ph">[ your caption ]</div></div>
-        <div class="baby-card reveal"><img src="photo_27.png" alt="" onerror="this.outerHTML='<div class=\'baby-ph\'><span>photo_27.png</span></div>'"><div class="baby-cap ph">[ your caption ]</div></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SONG -->
-  <div class="song-section">
-    <svg class="song-doodles" viewBox="0 0 1000 400" preserveAspectRatio="xMidYMid slice" fill="none">
-      <text x="40" y="200" font-size="90" fill="#fff" font-family="serif">♪</text>
-      <text x="860" y="310" font-size="70" fill="#fff" font-family="serif">♫</text>
-      <text x="460" y="370" font-size="55" fill="#fff" font-family="serif">♩</text>
-      <path d="M80 90 L84 104 L98 104 L87 113 L91 127 L80 118 L69 127 L73 113 L62 104 L76 104Z" fill="#fff"/>
-      <path d="M920 70 L923 82 L935 82 L925 89 L929 101 L920 94 L911 101 L915 89 L905 82 L917 82Z" fill="#fff"/>
-    </svg>
-    <div class="song-eyebrow reveal">Spotify says this is our song</div>
-    <div class="song-title reveal" style="transition-delay:0.08s">Take On Me</div>
-    <div class="song-artist reveal" style="transition-delay:0.14s">A-ha · 1985</div>
-    <div class="song-note reveal" style="transition-delay:0.2s">
-      "Shying away, I'll be coming for your love, OK.<br>
-      <em>Take on me, take me on."</em><br><br>
-      feels right.
-    </div>
-  </div>
-
-  <!-- LETTER -->
-  <div class="letter-section">
-    <div class="letter-wrap">
-      <div class="section-label reveal">
-        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="4" width="18" height="14" rx="2" stroke="#d94f5c" stroke-width="1.5"/><path d="M2 8 L11 13 L20 8" stroke="#d94f5c" stroke-width="1.5" stroke-linecap="round"/></svg>
-        a letter
-      </div>
-      <div class="letter-card reveal">
-        <div class="letter-date">7th May, 2025</div>
-        <div class="letter-greeting">Hi <em>Yash</em>,</div>
-        <div class="letter-body">
-          <p>It's your birthday.</p>
-          <p>I am so glad you were born on this day, and I feel so lucky to be able to experience life with you.</p>
-          <p>I know it has been very difficult for you lately, and I know you don't like celebrating your birthday — but I really want you to enjoy this day. Because it is your day, and you should live every day like it's your birthday. You deserve to be happy and to always have a smile on your face, just like you help everyone else smile all the time.</p>
-          <p>You are the most beautiful, loving, caring, interesting and bravest human being I have ever met. <span class="hl">Everyone is very lucky to have you in their lives.</span></p>
-          <p><span class="hl">And I am the luckiest of them all.</span></p>
-        </div>
-        <div class="letter-sign">
-          <div class="sign-always">Always here for you.</div>
-          <div class="sign-love">I love you.</div>
-          <div class="sign-bday">Happiest Birthday to my sweet girl.</div>
-        </div>
-      </div>
-    </div>
   </div>
 
   <!-- FOOTER -->
