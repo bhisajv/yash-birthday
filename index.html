@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For Yash 🎂</title>
+<title>For Yashaswani 🎂</title>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Nunito:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Lora:ital,wght@0,400;1,400;1,500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
@@ -57,21 +57,24 @@ body{
 /* ── SCROLL ANIMATIONS ── */
 .reveal{
   opacity:0;
-  transform:translateY(40px);
-  transition:opacity 0.9s cubic-bezier(0.22,1,0.36,1),
-              transform 0.9s cubic-bezier(0.22,1,0.36,1);
+  transform:translateY(32px);
+  will-change:opacity,transform;
+  transition:opacity 1s cubic-bezier(0.16,1,0.3,1),
+              transform 1s cubic-bezier(0.16,1,0.3,1);
 }
 .reveal.visible{opacity:1;transform:translateY(0);}
 .reveal-left{
-  opacity:0;transform:translateX(-40px);
-  transition:opacity 0.9s cubic-bezier(0.22,1,0.36,1),
-              transform 0.9s cubic-bezier(0.22,1,0.36,1);
+  opacity:0;transform:translateX(-32px);
+  will-change:opacity,transform;
+  transition:opacity 1s cubic-bezier(0.16,1,0.3,1),
+              transform 1s cubic-bezier(0.16,1,0.3,1);
 }
 .reveal-left.visible{opacity:1;transform:translateX(0);}
 .reveal-right{
-  opacity:0;transform:translateX(40px);
-  transition:opacity 0.9s cubic-bezier(0.22,1,0.36,1),
-              transform 0.9s cubic-bezier(0.22,1,0.36,1);
+  opacity:0;transform:translateX(32px);
+  will-change:opacity,transform;
+  transition:opacity 1s cubic-bezier(0.16,1,0.3,1),
+              transform 1s cubic-bezier(0.16,1,0.3,1);
 }
 .reveal-right.visible{opacity:1;transform:translateX(0);}
 
@@ -105,11 +108,10 @@ body{
 /* ── ENTRY ── */
 #entry{
   min-height:100vh;width:100%;
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
+  display:grid;
+  grid-template-columns:1fr 1fr;
   position:relative;overflow:hidden;
   background:var(--cream);
-  padding:40px 24px;
   z-index:10;
 }
 #entry.leaving{
@@ -119,6 +121,41 @@ body{
   0%{opacity:1;transform:scale(1);}
   40%{opacity:0;transform:scale(1.08);}
   100%{opacity:0;transform:scale(1.08);pointer-events:none;}
+}
+/* left content pane */
+.entry-left{
+  display:flex;flex-direction:column;
+  justify-content:center;
+  padding:60px 48px 60px 64px;
+  position:relative;z-index:2;
+}
+/* right photo pane */
+.entry-right{
+  position:relative;overflow:hidden;
+}
+.entry-photo{
+  position:absolute;inset:0;
+  background:url('photo_23.png') center/cover no-repeat;
+  filter:saturate(0.85) brightness(0.96);
+}
+.entry-photo::after{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(to right, var(--cream) 0%, transparent 30%),
+             linear-gradient(to top, var(--cream) 0%, transparent 25%);
+}
+/* mobile */
+@media(max-width:760px){
+  #entry{grid-template-columns:1fr;}
+  .entry-right{
+    position:absolute;inset:0;z-index:0;
+    opacity:0.18;
+  }
+  .entry-left{
+    padding:40px 28px;z-index:2;
+    align-items:center;text-align:center;
+    min-height:100vh;
+  }
 }
 
 .entry-frame{
@@ -140,8 +177,8 @@ body{
 .typewriter{
   overflow:hidden;
   border-right:2px solid var(--ink);
-  white-space:nowrap;
   animation:blink 0.75s step-end infinite;
+  display:block;
 }
 .typewriter.done{border-color:transparent;}
 @keyframes blink{50%{border-color:transparent;}}
@@ -452,67 +489,134 @@ body{
   color:var(--mid);margin-top:10px;line-height:1.4;padding:0 4px;
 }
 
-/* ── SONG ── */
+/* ── SONG / VINYL PLAYER ── */
 .song-section{
-  padding:110px 24px;text-align:center;
+  padding:110px 24px 80px;text-align:center;
   background:var(--ink);position:relative;overflow:hidden;
 }
-/* spinning record */
-.record{
-  width:80px;height:80px;
+/* big vinyl record */
+.vinyl-wrap{
+  position:relative;
+  width:220px;height:220px;
+  margin:0 auto 0;
+  z-index:2;
+}
+.vinyl-disc{
+  width:220px;height:220px;
   border-radius:50%;
-  background:radial-gradient(circle,#333 28%,#1a1a1a 28%,#1a1a1a 32%,#222 32%);
-  margin:0 auto 28px;
-  position:relative;z-index:2;
-  box-shadow:0 0 0 2px #444,inset 0 0 0 2px #333;
+  background:
+    radial-gradient(circle at 50% 50%, transparent 0%, transparent 18%, #111 18%, #111 20%, transparent 20%),
+    repeating-radial-gradient(circle at 50% 50%, #1a1a1a 0px, #1a1a1a 2px, #222 2px, #222 4px);
+  box-shadow:0 0 0 3px #333, 0 20px 60px rgba(0,0,0,0.7);
+  position:relative;
+  transition:filter 0.4s ease;
 }
-.record.spin{animation:recordSpin 2s linear infinite;}
-@keyframes recordSpin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
-.record::after{
-  content:'';
-  position:absolute;top:50%;left:50%;
-  width:8px;height:8px;
-  background:#ccc;border-radius:50%;
+.vinyl-disc.spin{animation:vinylSpin 2.8s linear infinite;}
+@keyframes vinylSpin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+/* centre label */
+.vinyl-label{
+  position:absolute;
+  top:50%;left:50%;
+  width:70px;height:70px;
+  background:radial-gradient(circle,#d94f5c 0%,#c23d4a 60%,#a8323e 100%);
+  border-radius:50%;
   transform:translate(-50%,-50%);
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;
+  box-shadow:inset 0 0 8px rgba(0,0,0,0.3);
 }
+.vinyl-label-text{
+  font-family:'Caveat',cursive;
+  font-size:8px;font-weight:700;
+  color:rgba(255,255,255,0.7);
+  letter-spacing:0.12em;
+  line-height:1.4;
+  text-align:center;
+}
+/* spindle hole */
+.vinyl-hole{
+  width:8px;height:8px;
+  background:#888;border-radius:50%;
+  margin-top:2px;
+}
+/* tonearm */
+.tonearm{
+  position:absolute;
+  top:-8px;right:-18px;
+  width:80px;height:80px;
+  pointer-events:none;
+  transform-origin:72px 8px;
+  transition:transform 1s cubic-bezier(0.22,1,0.36,1);
+}
+.tonearm.on-record{transform:rotate(-28deg);}
+/* progress ring */
+.vinyl-progress-ring{
+  position:absolute;inset:0;
+  border-radius:50%;
+  pointer-events:none;
+}
+/* player card */
+.player-card{
+  background:rgba(253,249,243,0.07);
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:28px;
+  padding:28px 40px 32px;
+  max-width:360px;
+  margin:-28px auto 0;
+  position:relative;z-index:1;
+}
+.song-eyebrow{
+  font-family:'Caveat',cursive;font-size:15px;font-weight:500;
+  letter-spacing:0.1em;color:rgba(253,249,243,0.3);
+  margin-bottom:8px;position:relative;z-index:2;
+}
+.song-title{
+  font-family:'Caveat',cursive;
+  font-size:clamp(32px,6vw,52px);
+  font-weight:700;color:var(--cream);
+  line-height:1;margin-bottom:4px;position:relative;z-index:2;
+}
+.song-artist{
+  font-family:'Caveat',cursive;font-size:16px;font-weight:400;
+  color:rgba(253,249,243,0.35);margin-bottom:20px;position:relative;z-index:2;
+}
+/* play/pause btn in card */
+.vinyl-play-btn{
+  width:48px;height:48px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.12);
+  border:1px solid rgba(255,255,255,0.15);
+  color:var(--cream);
+  font-size:18px;
+  cursor:none;
+  transition:background 0.2s ease, transform 0.2s ease;
+  display:inline-flex;align-items:center;justify-content:center;
+  margin-bottom:20px;
+}
+.vinyl-play-btn:hover{background:rgba(255,255,255,0.2);transform:scale(1.08);}
+.song-note{
+  font-family:'Caveat',cursive;font-size:18px;font-weight:400;
+  color:rgba(253,249,243,0.4);
+  max-width:320px;margin:0 auto;
+  line-height:1.8;position:relative;z-index:2;
+}
+.song-note em{color:#f2a0a8;font-style:normal;}
 /* visualizer */
 .viz{
   display:flex;align-items:flex-end;justify-content:center;
-  gap:3px;height:40px;margin:24px auto 0;
+  gap:3px;height:32px;margin:16px auto 0;
   position:relative;z-index:2;
 }
 .viz-bar{
-  width:3px;background:var(--red);border-radius:2px;
-  opacity:0.7;
+  width:3px;background:rgba(217,79,92,0.6);border-radius:2px;
   animation:vizBounce var(--spd,0.8s) ease-in-out infinite alternate;
   animation-delay:var(--d,0s);
 }
 @keyframes vizBounce{
-  from{height:4px;opacity:0.3;}
-  to{height:var(--h,30px);opacity:0.9;}
+  from{height:3px;opacity:0.2;}
+  to{height:var(--h,28px);opacity:0.8;}
 }
-.song-eyebrow{
-  font-family:'Caveat',cursive;font-size:17px;font-weight:500;
-  letter-spacing:0.08em;color:rgba(253,249,243,0.3);
-  margin-bottom:20px;position:relative;z-index:2;
-}
-.song-title{
-  font-family:'Caveat',cursive;
-  font-size:clamp(44px,10vw,100px);
-  font-weight:700;color:var(--cream);
-  line-height:0.9;margin-bottom:10px;position:relative;z-index:2;
-}
-.song-artist{
-  font-family:'Caveat',cursive;font-size:18px;font-weight:400;
-  color:rgba(253,249,243,0.3);margin-bottom:44px;position:relative;z-index:2;
-}
-.song-note{
-  font-family:'Caveat',cursive;font-size:22px;font-weight:400;
-  color:rgba(253,249,243,0.5);
-  max-width:440px;margin:0 auto;
-  line-height:1.8;position:relative;z-index:2;
-}
-.song-note em{color:#f2a0a8;font-style:normal;}
 
 /* ── CAKE SECTION ── */
 .cake-section{
@@ -532,22 +636,29 @@ body{
 }
 /* candle flame */
 @keyframes flicker{
-  0%,100%{transform:scaleX(1) scaleY(1) rotate(-1deg);}
-  25%{transform:scaleX(0.85) scaleY(1.08) rotate(2deg);}
-  50%{transform:scaleX(1.05) scaleY(0.95) rotate(-2deg);}
-  75%{transform:scaleX(0.9) scaleY(1.06) rotate(1deg);}
+  0%,100%{transform:scaleX(1) scaleY(1) rotate(-1.5deg);}
+  20%{transform:scaleX(0.82) scaleY(1.1) rotate(2.5deg);}
+  40%{transform:scaleX(1.08) scaleY(0.92) rotate(-2deg);}
+  60%{transform:scaleX(0.88) scaleY(1.07) rotate(1.5deg);}
+  80%{transform:scaleX(1.04) scaleY(0.96) rotate(-1deg);}
 }
 @keyframes flickerGlow{
-  0%,100%{opacity:0.3;}
-  50%{opacity:0.6;}
+  0%,100%{opacity:0.25;}
+  33%{opacity:0.55;}
+  66%{opacity:0.35;}
 }
-.flame{transform-origin:50% 100%;animation:flicker 0.5s ease-in-out infinite;}
-.flame-glow{animation:flickerGlow 0.4s ease-in-out infinite;}
+@keyframes flickerInner{
+  0%,100%{transform:scaleX(1) scaleY(1);}
+  50%{transform:scaleX(0.7) scaleY(1.15);}
+}
+.flame{transform-origin:50% 100%;animation:flicker 0.45s ease-in-out infinite;}
+.flame-inner{transform-origin:50% 100%;animation:flickerInner 0.35s ease-in-out infinite;}
+.flame-glow{animation:flickerGlow 0.38s ease-in-out infinite;}
 /* cake draw-on */
 .cake-path{
-  stroke-dasharray:1000;
-  stroke-dashoffset:1000;
-  transition:stroke-dashoffset 2s cubic-bezier(0.22,1,0.36,1);
+  stroke-dasharray:1200;
+  stroke-dashoffset:1200;
+  transition:stroke-dashoffset 2.2s cubic-bezier(0.22,1,0.36,1);
 }
 .cake-path.drawn{stroke-dashoffset:0;}
 .cake-wish{
@@ -558,21 +669,34 @@ body{
   opacity:0;transition:opacity 1s ease 2s;
 }
 .cake-wish.show{opacity:1;}
-/* blow button */
+/* blow button - much more responsive */
 .blow-btn{
-  margin-top:32px;
-  padding:12px 36px;
+  display:inline-block;
+  margin-top:24px;
+  padding:14px 44px;
   font-family:'Caveat',cursive;
-  font-size:18px;font-weight:600;
+  font-size:20px;font-weight:700;
   background:transparent;
-  border:2px solid var(--red);
+  border:2.5px solid var(--red);
   color:var(--red);
-  border-radius:50px;cursor:none;
-  transition:all 0.25s ease;
-  opacity:0;transition:opacity 1s ease 2.5s, background 0.25s ease, color 0.25s ease;
+  border-radius:50px;
+  cursor:none;
+  letter-spacing:0.03em;
+  /* override conflicting transitions */
+  transition:background 0.18s ease, color 0.18s ease, transform 0.18s cubic-bezier(0.22,1,0.36,1), box-shadow 0.18s ease !important;
+  opacity:0;
+  box-shadow:0 0 0 0 rgba(217,79,92,0);
 }
 .blow-btn.show{opacity:1;}
-.blow-btn:hover{background:var(--red);color:#fff;}
+.blow-btn:hover{
+  background:var(--red);
+  color:#fff;
+  transform:scale(1.06) translateY(-2px) !important;
+  box-shadow:0 8px 28px rgba(217,79,92,0.3);
+}
+.blow-btn:active{
+  transform:scale(0.98) !important;
+}
 
 /* ── LETTER ── */
 .letter-section{padding:100px 24px;background:var(--cream2);}
@@ -774,55 +898,45 @@ body{
 
 <!-- ══ ENTRY ══ -->
 <div id="entry">
-  <svg class="entry-frame" viewBox="0 0 1000 700" preserveAspectRatio="xMidYMid slice" fill="none">
-    <path d="M50 60 Q250 30 500 50 Q750 70 950 40" stroke="#1e1408" stroke-width="1.5" stroke-linecap="round" opacity="0.1"/>
-    <polygon points="120,60 140,60 130,90" fill="#d94f5c" opacity="0.16"/>
-    <polygon points="165,54 185,54 175,84" fill="#3a6bb5" opacity="0.13"/>
-    <polygon points="210,57 230,57 220,87" fill="#d94f5c" opacity="0.11"/>
-    <polygon points="680,54 700,54 690,84" fill="#d94f5c" opacity="0.14"/>
-    <polygon points="725,48 745,48 735,78" fill="#3a6bb5" opacity="0.12"/>
-    <polygon points="770,52 790,52 780,82" fill="#1e1408" opacity="0.09"/>
-    <path d="M80 200 L83 210 L93 210 L85 217 L88 227 L80 220 L72 227 L75 217 L67 210 L77 210 Z" fill="#d94f5c" opacity="0.11"/>
-    <path d="M920 300 L923 310 L933 310 L925 317 L928 327 L920 320 L912 327 L915 317 L907 310 L917 310 Z" fill="#3a6bb5" opacity="0.11"/>
-    <text x="70" y="500" font-size="32" fill="#3a6bb5" opacity="0.08" font-family="serif">♪</text>
-    <text x="910" y="450" font-size="28" fill="#d94f5c" opacity="0.08" font-family="serif">♫</text>
-    <text x="480" y="40" font-size="24" fill="#d94f5c" opacity="0.1" font-family="serif">♩</text>
-    <path d="M880 580 C880 570 893 565 893 575 C893 565 906 570 906 580 C906 592 893 600 893 600 C893 600 880 592 880 580Z" fill="#d94f5c" opacity="0.11"/>
-    <path d="M85 580 C85 572 96 568 96 576 C96 568 107 572 107 580 C107 590 96 597 96 597 C96 597 85 590 85 580Z" fill="#3a6bb5" opacity="0.09"/>
-    <circle cx="100" cy="620" r="18" stroke="#d94f5c" stroke-width="1.5" fill="none" opacity="0.13"/>
-    <line x1="100" y1="638" x2="100" y2="660" stroke="#d94f5c" stroke-width="1.2" opacity="0.13"/>
-    <circle cx="940" cy="620" r="14" stroke="#3a6bb5" stroke-width="1.5" fill="none" opacity="0.11"/>
-    <line x1="940" y1="634" x2="940" y2="652" stroke="#3a6bb5" stroke-width="1.2" opacity="0.11"/>
-    <rect x="880" y="600" width="36" height="30" rx="2" stroke="#3a6bb5" stroke-width="1.5" fill="none" opacity="0.11"/>
-    <line x1="898" y1="600" x2="898" y2="630" stroke="#3a6bb5" stroke-width="1" opacity="0.11"/>
-    <path d="M885 600 Q898 590 911 600" stroke="#3a6bb5" stroke-width="1.2" fill="none" opacity="0.11"/>
+  <!-- SVG doodles still in background -->
+  <svg class="entry-frame" viewBox="0 0 1000 700" preserveAspectRatio="xMidYMid slice" fill="none" style="z-index:1;">
+    <path d="M50 60 Q250 30 500 50 Q750 70 950 40" stroke="#1e1408" stroke-width="1.5" stroke-linecap="round" opacity="0.07"/>
+    <polygon points="120,60 140,60 130,90" fill="#d94f5c" opacity="0.12"/>
+    <polygon points="165,54 185,54 175,84" fill="#3a6bb5" opacity="0.1"/>
+    <polygon points="680,54 700,54 690,84" fill="#d94f5c" opacity="0.1"/>
+    <polygon points="725,48 745,48 735,78" fill="#3a6bb5" opacity="0.09"/>
+    <path d="M80 200 L83 210 L93 210 L85 217 L88 227 L80 220 L72 227 L75 217 L67 210 L77 210 Z" fill="#d94f5c" opacity="0.09"/>
+    <text x="70" y="500" font-size="32" fill="#3a6bb5" opacity="0.06" font-family="serif">♪</text>
+    <path d="M85 580 C85 572 96 568 96 576 C96 568 107 572 107 580 C107 590 96 597 96 597 C96 597 85 590 85 580Z" fill="#3a6bb5" opacity="0.07"/>
   </svg>
 
-  <!-- floating doodle elements -->
-  <div class="float-el" style="top:12%;left:8%;--dur:7s;--delay:0s;--op:0.11;--r0:-3deg;--r1:5deg;">
-    <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M16 4 L18 12 L26 12 L19 17 L22 25 L16 20 L10 25 L13 17 L6 12 L14 12 Z" stroke="#d94f5c" stroke-width="1.5" fill="none"/></svg>
-  </div>
-  <div class="float-el" style="top:20%;right:10%;--dur:8s;--delay:1s;--op:0.09;--r0:4deg;--r1:-6deg;">
-    <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 22 C14 22 4 16 4 10 C4 7.2 6.2 5 9 5 C10.5 5 12 5.8 13 7 C14 5.8 15.5 5 17 5 C19.8 5 22 7.2 22 10 C22 16 14 22 14 22Z" stroke="#d94f5c" stroke-width="1.5" fill="none"/></svg>
-  </div>
-  <div class="float-el" style="bottom:20%;left:6%;--dur:9s;--delay:2s;--op:0.1;--r0:2deg;--r1:-4deg;">
-    <svg width="26" height="30" viewBox="0 0 26 30" fill="none"><text x="2" y="22" font-size="22" fill="#3a6bb5" font-family="serif">♪</text></svg>
-  </div>
-  <div class="float-el" style="bottom:15%;right:8%;--dur:6.5s;--delay:0.5s;--op:0.09;--r0:-5deg;--r1:3deg;">
-    <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><circle cx="13" cy="13" r="11" stroke="#d94f5c" stroke-width="1.5" fill="none"/><line x1="13" y1="24" x2="13" y2="30" stroke="#d94f5c" stroke-width="1.2"/></svg>
-  </div>
-  <div class="float-el" style="top:55%;left:3%;--dur:10s;--delay:3s;--op:0.08;--r0:0deg;--r1:8deg;">
-    <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="8" width="16" height="11" rx="2" stroke="#3a6bb5" stroke-width="1.3" fill="none"/><line x1="11" y1="8" x2="11" y2="3" stroke="#3a6bb5" stroke-width="1.2"/><path d="M8 8 Q11 4 14 8" stroke="#3a6bb5" stroke-width="1.2" fill="none"/></svg>
+  <!-- LEFT: text content -->
+  <div class="entry-left">
+    <!-- floating doodle elements -->
+    <div class="float-el" style="top:12%;left:4%;--dur:7s;--delay:0s;--op:0.11;--r0:-3deg;--r1:5deg;">
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><path d="M16 4 L18 12 L26 12 L19 17 L22 25 L16 20 L10 25 L13 17 L6 12 L14 12 Z" stroke="#d94f5c" stroke-width="1.5" fill="none"/></svg>
+    </div>
+    <div class="float-el" style="bottom:18%;left:2%;--dur:9s;--delay:2s;--op:0.1;--r0:2deg;--r1:-4deg;">
+      <svg width="22" height="26" viewBox="0 0 26 30" fill="none"><text x="2" y="22" font-size="22" fill="#3a6bb5" font-family="serif">♪</text></svg>
+    </div>
+    <div class="float-el" style="bottom:12%;left:40%;--dur:8s;--delay:1s;--op:0.09;--r0:-5deg;--r1:3deg;">
+      <svg width="22" height="22" viewBox="0 0 28 28" fill="none"><path d="M14 22 C14 22 4 16 4 10 C4 7.2 6.2 5 9 5 C10.5 5 12 5.8 13 7 C14 5.8 15.5 5 17 5 C19.8 5 22 7.2 22 10 C22 16 14 22 14 22Z" stroke="#d94f5c" stroke-width="1.5" fill="none"/></svg>
+    </div>
+
+    <div class="entry-eyebrow">7th May, 2025 &nbsp;·&nbsp; a gift</div>
+    <div class="entry-title" id="typeTarget">
+      <span id="type-line-1" class="typewriter"></span>
+    </div>
+    <div class="entry-sub">Do you want to see something I made for you?</div>
+    <div class="btn-row">
+      <button class="btn btn-yes" id="yesBtn" onclick="openSite(event)">Yes, please ♡</button>
+      <button class="btn btn-no" id="noBtn" onmouseover="runAway(this)">No thanks</button>
+    </div>
   </div>
 
-  <div class="entry-eyebrow">7th May, 2025  ·  a gift</div>
-  <div class="entry-title" id="typeTarget">
-    <span id="type-line-1" class="typewriter"></span>
-  </div>
-  <div class="entry-sub">Do you want to see something I made for you?</div>
-  <div class="btn-row">
-    <button class="btn btn-yes" id="yesBtn" onclick="openSite(event)">Yes, please ♡</button>
-    <button class="btn btn-no" id="noBtn" onmouseover="runAway(this)">No thanks</button>
+  <!-- RIGHT: baby birthday photo -->
+  <div class="entry-right">
+    <div class="entry-photo"></div>
   </div>
 </div>
 
@@ -868,15 +982,15 @@ body{
     <div class="photo-grid stagger" id="pg-start">
       <div class="polaroid reveal" style="--r:-2deg" data-src="photo_4.jpeg" data-cap="where it all started">
         <img src="photo_4.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_4.jpeg</span></div>'">
-        <div class="polaroid-cap"></div>
+        <div class="polaroid-cap">where it all started</div>
       </div>
       <div class="polaroid reveal" style="--r:1.5deg" data-src="photo_12.jpeg" data-cap="">
         <img src="photo_12.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_12.jpeg</span></div>'">
-        <div class="polaroid-cap"><span class="cap-placeholder"></span></div>
+        <div class="polaroid-cap"><span class="cap-placeholder">[ caption ]</span></div>
       </div>
       <div class="polaroid reveal" style="--r:-1deg" data-src="photo_20.jpeg" data-cap="">
         <img src="photo_20.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_20.jpeg</span></div>'">
-        <div class="polaroid-cap"><span class="cap-placeholder"></span></div>
+        <div class="polaroid-cap"><span class="cap-placeholder">[ caption ]</span></div>
       </div>
     </div>
   </div>
@@ -888,25 +1002,25 @@ body{
       Our Memories
     </div>
     <div class="photo-grid stagger">
-      <div class="polaroid reveal" style="--r:2deg"><img src="photo_1.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_1.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder"></span></div></div>
-      <div class="polaroid reveal" style="--r:-2.5deg"><img src="photo_2.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_2.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder"></span></div></div>
-      <div class="polaroid reveal" style="--r:1deg"><img src="photo_3.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_3.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder"></span></div></div>
-      <div class="polaroid reveal" style="--r:-1.5deg"><img src="photo_5.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_5.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder"></span></div></div>
-      <div class="polaroid reveal" style="--r:2.5deg"><img src="photo_6.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_6.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder"></span></div></div>
-      <div class="polaroid reveal" style="--r:-2deg"><img src="photo_7.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_7.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder"></span></div></div>
-      <div class="polaroid reveal" style="--r:1.5deg"><img src="photo_8.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_8.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder"></span></div></div>
-      <div class="polaroid reveal" style="--r:-1deg"><img src="photo_9.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_9.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder"></span></div></div>
-      <div class="polaroid reveal" style="--r:2deg"><img src="photo_10.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_10.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder"></span></div></div>
-      <div class="polaroid reveal" style="--r:-2.5deg"><img src="photo_11.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_11.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder"></span></div></div>
-      <div class="polaroid reveal" style="--r:1deg"><img src="photo_13.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_13.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder"></span></div></div>
-      <div class="polaroid reveal" style="--r:-1.5deg"><img src="photo_14.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_14.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder"></span></div></div>
-      <div class="polaroid reveal" style="--r:2.5deg"><img src="photo_15.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_15.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder"></span></div></div>
-      <div class="polaroid reveal" style="--r:-2deg"><img src="photo_16.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_16.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder"></span></div></div>
-      <div class="polaroid reveal" style="--r:1.5deg"><img src="photo_17.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_17.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder"></span></div></div>
-      <div class="polaroid reveal" style="--r:-1deg"><img src="photo_18.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_18.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder"></span></div></div>
-      <div class="polaroid reveal" style="--r:2deg"><img src="photo_19.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_19.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder"></span></div></div>
-      <div class="polaroid reveal" style="--r:-2.5deg"><img src="photo_21.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_21.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder"></span></div></div>
-      <div class="polaroid reveal" style="--r:1deg"><img src="photo_22.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_22.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder"></span></div></div>
+      <div class="polaroid reveal" style="--r:2deg"><img src="photo_1.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_1.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder">[ caption ]</span></div></div>
+      <div class="polaroid reveal" style="--r:-2.5deg"><img src="photo_2.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_2.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder">[ caption ]</span></div></div>
+      <div class="polaroid reveal" style="--r:1deg"><img src="photo_3.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_3.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder">[ caption ]</span></div></div>
+      <div class="polaroid reveal" style="--r:-1.5deg"><img src="photo_5.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_5.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder">[ caption ]</span></div></div>
+      <div class="polaroid reveal" style="--r:2.5deg"><img src="photo_6.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_6.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder">[ caption ]</span></div></div>
+      <div class="polaroid reveal" style="--r:-2deg"><img src="photo_7.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_7.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder">[ caption ]</span></div></div>
+      <div class="polaroid reveal" style="--r:1.5deg"><img src="photo_8.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_8.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder">[ caption ]</span></div></div>
+      <div class="polaroid reveal" style="--r:-1deg"><img src="photo_9.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_9.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder">[ caption ]</span></div></div>
+      <div class="polaroid reveal" style="--r:2deg"><img src="photo_10.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_10.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder">[ caption ]</span></div></div>
+      <div class="polaroid reveal" style="--r:-2.5deg"><img src="photo_11.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_11.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder">[ caption ]</span></div></div>
+      <div class="polaroid reveal" style="--r:1deg"><img src="photo_13.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_13.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder">[ caption ]</span></div></div>
+      <div class="polaroid reveal" style="--r:-1.5deg"><img src="photo_14.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_14.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder">[ caption ]</span></div></div>
+      <div class="polaroid reveal" style="--r:2.5deg"><img src="photo_15.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_15.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder">[ caption ]</span></div></div>
+      <div class="polaroid reveal" style="--r:-2deg"><img src="photo_16.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_16.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder">[ caption ]</span></div></div>
+      <div class="polaroid reveal" style="--r:1.5deg"><img src="photo_17.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_17.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder">[ caption ]</span></div></div>
+      <div class="polaroid reveal" style="--r:-1deg"><img src="photo_18.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_18.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder">[ caption ]</span></div></div>
+      <div class="polaroid reveal" style="--r:2deg"><img src="photo_19.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_19.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder">[ caption ]</span></div></div>
+      <div class="polaroid reveal" style="--r:-2.5deg"><img src="photo_21.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_21.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder">[ caption ]</span></div></div>
+      <div class="polaroid reveal" style="--r:1deg"><img src="photo_22.jpeg" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\'><span>photo_22.jpeg</span></div>'"><div class="polaroid-cap"><span class="cap-placeholder">[ caption ]</span></div></div>
     </div>
   </div>
 
@@ -915,28 +1029,29 @@ body{
     <div class="baby-inner">
       <div class="section-label reveal">
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9" stroke="#d94f5c" stroke-width="1.5"/><path d="M8 12 Q11 15 14 12" stroke="#1e1408" stroke-width="1.5" stroke-linecap="round" fill="none"/><circle cx="8.5" cy="9" r="1" fill="#1e1408"/><circle cx="13.5" cy="9" r="1" fill="#1e1408"/></svg>
+        before I knew you
       </div>
-      <div class="baby-heading reveal">You have always been <em>this girl.</em></div>
+      <div class="baby-heading reveal">you have always been <em>this girl.</em></div>
       <div class="baby-grid stagger">
         <div class="baby-card reveal">
           <img src="photo_23.png" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\' style=\'aspect-ratio:3/4;border-radius:14px;\'><span>photo_23.png</span></div>'">
-          <div class="baby-cap"></div>
+          <div class="baby-cap">[ caption ]</div>
         </div>
         <div class="baby-card reveal">
           <img src="photo_24.png" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\' style=\'aspect-ratio:3/4;border-radius:14px;\'><span>photo_24.png</span></div>'">
-          <div class="baby-cap"></div>
+          <div class="baby-cap">[ caption ]</div>
         </div>
         <div class="baby-card reveal">
           <img src="photo_25.png" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\' style=\'aspect-ratio:3/4;border-radius:14px;\'><span>photo_25.png</span></div>'">
-          <div class="baby-cap"></div>
+          <div class="baby-cap">[ caption ]</div>
         </div>
         <div class="baby-card reveal">
           <img src="photo_26.png" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\' style=\'aspect-ratio:3/4;border-radius:14px;\'><span>photo_26.png</span></div>'">
-          <div class="baby-cap"></div>
+          <div class="baby-cap">[ caption ]</div>
         </div>
         <div class="baby-card reveal">
           <img src="photo_27.png" alt="" onclick="openLightbox(this)" onerror="this.outerHTML='<div class=\'photo-placeholder-box\' style=\'aspect-ratio:3/4;border-radius:14px;\'><span>photo_27.png</span></div>'">
-          <div class="baby-cap"></div>
+          <div class="baby-cap">[ caption ]</div>
         </div>
       </div>
     </div>
@@ -944,89 +1059,141 @@ body{
 
   <!-- SONG SECTION -->
   <div class="song-section">
-    <div class="record reveal" id="record"></div>
-    <div class="song-eyebrow reveal" style="transition-delay:0.1s">Spotify says this is our song</div>
-    <div class="song-title reveal" style="transition-delay:0.15s">Take On Me</div>
-    <div class="song-artist reveal" style="transition-delay:0.2s">A-ha &nbsp;·&nbsp; 1985</div>
-    <div class="song-note reveal" style="transition-delay:0.25s">
-      "Shying away, I'll be coming for your love, OK.<br>
-      <em>Take on me, take me on."</em><br><br>
-      feels right.
+    <!-- ambient music notes bg -->
+    <svg style="position:absolute;inset:0;pointer-events:none;opacity:0.04;" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice" fill="none">
+      <text x="60" y="200" font-size="80" fill="#fff" font-family="serif">♪</text>
+      <text x="860" y="350" font-size="60" fill="#fff" font-family="serif">♫</text>
+      <text x="440" y="520" font-size="50" fill="#fff" font-family="serif">♩</text>
+      <text x="200" y="480" font-size="40" fill="#fff" font-family="serif">♪</text>
+      <text x="760" y="100" font-size="45" fill="#fff" font-family="serif">♫</text>
+    </svg>
+
+    <!-- Vinyl record -->
+    <div class="vinyl-wrap reveal">
+      <div class="vinyl-disc" id="vinylDisc">
+        <div class="vinyl-label">
+          <div class="vinyl-label-text">TAKE ON<br>ME</div>
+          <div class="vinyl-hole"></div>
+        </div>
+      </div>
+      <!-- SVG tonearm -->
+      <svg class="tonearm" id="tonearm" viewBox="0 0 80 80" fill="none">
+        <line x1="72" y1="8" x2="42" y2="68" stroke="#888" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="72" cy="8" r="6" fill="#666" stroke="#888" stroke-width="1.5"/>
+        <circle cx="40" cy="70" r="4" fill="#aaa"/>
+        <line x1="40" y1="66" x2="36" y2="74" stroke="#999" stroke-width="2" stroke-linecap="round"/>
+      </svg>
     </div>
-    <div class="viz reveal" style="transition-delay:0.3s" id="vizBars"></div>
+
+    <!-- Player card -->
+    <div class="player-card reveal" style="transition-delay:0.1s">
+      <div class="song-eyebrow">Spotify says this is our song</div>
+      <div class="song-title">Take On Me</div>
+      <div class="song-artist">A-ha &nbsp;·&nbsp; 1985</div>
+      <button class="vinyl-play-btn" id="vinylPlayBtn" onclick="toggleAudio()">▶</button>
+      <div class="viz" id="vizBars"></div>
+      <div class="song-note" style="margin-top:20px">
+        "Shying away, I'll be coming for your love, OK.<br>
+        <em>Take on me, take me on."</em><br><br>
+        feels right.
+      </div>
+    </div>
   </div>
 
   <!-- CAKE SECTION -->
   <div class="cake-section" id="cakeSection">
-    <div class="cake-heading reveal">Happy Birthday, my love</div>
+    <div class="cake-heading reveal">Happy Birthday, my love 🎂</div>
     <div class="cake-svg-wrap reveal" style="transition-delay:0.15s">
-      <svg id="cakeSvg" width="280" height="320" viewBox="0 0 280 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg id="cakeSvg" width="320" height="370" viewBox="0 0 320 370" fill="none" xmlns="http://www.w3.org/2000/svg">
 
-        <!-- Cake body paths (draw-on animation) -->
-        <!-- Bottom tier -->
-        <path class="cake-path" d="M40 230 L40 270 Q40 280 50 280 L230 280 Q240 280 240 270 L240 230 Z" stroke="#1e1408" stroke-width="2.5" fill="#fdf0e0"/>
-        <!-- Bottom tier frosting top -->
-        <path class="cake-path" d="M40 230 Q60 220 80 230 Q100 240 120 230 Q140 220 160 230 Q180 240 200 230 Q220 220 240 230" stroke="#d94f5c" stroke-width="2.5" fill="none"/>
-        <!-- Middle tier -->
-        <path class="cake-path" d="M65 185 L65 230 L215 230 L215 185 Z" stroke="#1e1408" stroke-width="2.5" fill="#fdf9f3"/>
-        <!-- Middle tier frosting top -->
-        <path class="cake-path" d="M65 185 Q82 175 100 185 Q118 195 136 185 Q154 175 172 185 Q190 195 215 185" stroke="#3a6bb5" stroke-width="2.5" fill="none"/>
-        <!-- Top tier -->
-        <path class="cake-path" d="M90 145 L90 185 L190 185 L190 145 Z" stroke="#1e1408" stroke-width="2.5" fill="#fdf0e0"/>
-        <!-- Top tier frosting top -->
-        <path class="cake-path" d="M90 145 Q107 135 124 145 Q141 155 158 145 Q175 135 190 145" stroke="#d94f5c" stroke-width="2.5" fill="none"/>
-        <!-- Decorative dots bottom tier -->
-        <circle class="cake-path" cx="100" cy="255" r="4" fill="#d94f5c" stroke="#d94f5c" stroke-width="1"/>
-        <circle class="cake-path" cx="140" cy="255" r="4" fill="#3a6bb5" stroke="#3a6bb5" stroke-width="1"/>
-        <circle class="cake-path" cx="180" cy="255" r="4" fill="#d94f5c" stroke="#d94f5c" stroke-width="1"/>
-        <!-- Decorative hearts middle tier -->
-        <path class="cake-path" d="M130 207 C130 203 136 201 136 205 C136 201 142 203 142 207 C142 213 136 217 136 217 C136 217 130 213 130 207Z" fill="#d94f5c" stroke="none"/>
-        <!-- small star top tier -->
-        <path class="cake-path" d="M136 160 L137.5 165 L143 165 L138.5 168 L140 173 L136 170 L132 173 L133.5 168 L129 165 L134.5 165 Z" fill="#e8c547" stroke="none"/>
+        <!-- BOTTOM TIER - wide -->
+        <path class="cake-path" d="M24 264 L24 312 Q24 324 36 324 L284 324 Q296 324 296 312 L296 264 Z" stroke="#1e1408" stroke-width="2.5" fill="#fdf0e0"/>
+        <!-- bottom tier side shading -->
+        <path class="cake-path" d="M24 264 L24 312 Q24 324 36 324 L60 324 L60 264 Z" stroke="none" fill="rgba(30,20,8,0.04)"/>
+        <!-- bottom frosting drips -->
+        <path class="cake-path" d="M24 264 Q44 252 64 264 Q84 276 104 264 Q124 252 144 264 Q164 276 184 264 Q204 252 224 264 Q244 276 264 264 Q280 256 296 264" stroke="#d94f5c" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <!-- frosting drip drops -->
+        <ellipse class="cake-path" cx="64" cy="270" rx="5" ry="8" fill="#d94f5c" opacity="0.7"/>
+        <ellipse class="cake-path" cx="144" cy="272" rx="5" ry="9" fill="#d94f5c" opacity="0.7"/>
+        <ellipse class="cake-path" cx="224" cy="270" rx="5" ry="8" fill="#d94f5c" opacity="0.7"/>
+        <!-- bottom tier dots -->
+        <circle class="cake-path" cx="96" cy="294" r="5" fill="#d94f5c"/>
+        <circle class="cake-path" cx="128" cy="294" r="5" fill="#3a6bb5"/>
+        <circle class="cake-path" cx="160" cy="294" r="5" fill="#e8c547"/>
+        <circle class="cake-path" cx="192" cy="294" r="5" fill="#d94f5c"/>
+        <circle class="cake-path" cx="224" cy="294" r="5" fill="#3a6bb5"/>
 
-        <!-- CANDLE LEFT — "2" -->
-        <!-- candle body -->
-        <rect class="cake-path" x="106" y="100" width="16" height="46" rx="4" fill="#f2a0a8" stroke="#1e1408" stroke-width="1.5"/>
-        <!-- candle stripes -->
-        <line class="cake-path" x1="106" y1="110" x2="122" y2="110" stroke="#fff" stroke-width="2" opacity="0.6"/>
-        <line class="cake-path" x1="106" y1="120" x2="122" y2="120" stroke="#fff" stroke-width="2" opacity="0.6"/>
-        <line class="cake-path" x1="106" y1="130" x2="122" y2="130" stroke="#fff" stroke-width="2" opacity="0.6"/>
-        <!-- "2" label -->
-        <text x="114" y="135" font-family="Caveat, cursive" font-size="18" font-weight="700" fill="#d94f5c" text-anchor="middle">2</text>
+        <!-- MIDDLE TIER -->
+        <path class="cake-path" d="M62 210 L62 264 L258 264 L258 210 Z" stroke="#1e1408" stroke-width="2.5" fill="#fdf9f3"/>
+        <!-- middle shading -->
+        <path class="cake-path" d="M62 210 L62 264 L84 264 L84 210 Z" stroke="none" fill="rgba(30,20,8,0.04)"/>
+        <!-- middle frosting -->
+        <path class="cake-path" d="M62 210 Q80 200 98 210 Q116 220 134 210 Q152 200 170 210 Q188 220 206 210 Q224 200 242 210 Q252 206 258 210" stroke="#3a6bb5" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <ellipse class="cake-path" cx="98" cy="216" rx="4" ry="7" fill="#3a6bb5" opacity="0.7"/>
+        <ellipse class="cake-path" cx="170" cy="217" rx="4" ry="7" fill="#3a6bb5" opacity="0.7"/>
+        <ellipse class="cake-path" cx="242" cy="216" rx="4" ry="7" fill="#3a6bb5" opacity="0.7"/>
+        <!-- heart decoration middle tier -->
+        <path class="cake-path" d="M148 236 C148 231 155 228 155 233 C155 228 162 231 162 236 C162 243 155 248 155 248 C155 248 148 243 148 236Z" fill="#d94f5c"/>
+        <path class="cake-path" d="M172 236 C172 231 179 228 179 233 C179 228 186 231 186 236 C186 243 179 248 179 248 C179 248 172 243 172 236Z" fill="#d94f5c" opacity="0.5"/>
+
+        <!-- TOP TIER -->
+        <path class="cake-path" d="M102 162 L102 210 L218 210 L218 162 Z" stroke="#1e1408" stroke-width="2.5" fill="#fdf0e0"/>
+        <!-- top shading -->
+        <path class="cake-path" d="M102 162 L102 210 L118 210 L118 162 Z" stroke="none" fill="rgba(30,20,8,0.04)"/>
+        <!-- top frosting -->
+        <path class="cake-path" d="M102 162 Q118 152 134 162 Q150 172 166 162 Q182 152 198 162 Q210 158 218 162" stroke="#d94f5c" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <ellipse class="cake-path" cx="134" cy="167" rx="4" ry="6" fill="#d94f5c" opacity="0.6"/>
+        <ellipse class="cake-path" cx="198" cy="166" rx="3.5" ry="6" fill="#d94f5c" opacity="0.6"/>
+        <!-- star on top tier -->
+        <path class="cake-path" d="M160 176 L161.8 181.6 L167.6 181.6 L163 185 L164.8 190.6 L160 187.2 L155.2 190.6 L157 185 L152.4 181.6 L158.2 181.6 Z" fill="#e8c547"/>
+
+        <!-- CANDLE LEFT — first "2" -->
+        <rect class="cake-path" x="118" y="112" width="20" height="52" rx="5" fill="#f2a0a8" stroke="#1e1408" stroke-width="1.8"/>
+        <!-- spiral stripe on candle -->
+        <path class="cake-path" d="M118 124 Q128 120 138 124" stroke="rgba(255,255,255,0.5)" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path class="cake-path" d="M118 136 Q128 132 138 136" stroke="rgba(255,255,255,0.5)" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path class="cake-path" d="M118 148 Q128 144 138 148" stroke="rgba(255,255,255,0.5)" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <!-- big "2" on candle -->
+        <text x="128" y="152" font-family="Caveat, cursive" font-size="24" font-weight="700" fill="#c23d4a" text-anchor="middle">2</text>
         <!-- wick -->
-        <line class="cake-path" x1="114" y1="100" x2="114" y2="92" stroke="#666" stroke-width="1.5" stroke-linecap="round"/>
-        <!-- flame group left -->
-        <g id="flameL" class="flame" style="transform-origin:114px 92px;">
-          <ellipse cx="114" cy="84" rx="5" ry="9" fill="#e8c547" opacity="0.9"/>
-          <ellipse cx="114" cy="87" rx="3" ry="5.5" fill="#f97316" opacity="0.8"/>
-          <ellipse cx="114" cy="89" rx="1.5" ry="2.5" fill="#fff" opacity="0.7"/>
-          <!-- outer glow -->
-          <ellipse class="flame-glow" cx="114" cy="84" rx="8" ry="13" fill="#e8c547" opacity="0.2"/>
+        <line class="cake-path" x1="128" y1="112" x2="128" y2="102" stroke="#555" stroke-width="2" stroke-linecap="round"/>
+        <!-- FLAME LEFT -->
+        <g id="flameL" class="flame" style="transform-origin:128px 102px;">
+          <ellipse class="flame-glow" cx="128" cy="91" rx="10" ry="16" fill="#e8c547" opacity="0.22"/>
+          <ellipse cx="128" cy="93" rx="6.5" ry="11" fill="#e8c547" opacity="0.95"/>
+          <ellipse class="flame-inner" cx="128" cy="96" rx="4" ry="7" fill="#f97316" opacity="0.9" style="transform-origin:128px 103px;"/>
+          <ellipse cx="128" cy="99" rx="2" ry="3.5" fill="#fff8" opacity="0.85"/>
         </g>
 
-        <!-- CANDLE RIGHT — "2" -->
-        <rect class="cake-path" x="158" y="100" width="16" height="46" rx="4" fill="#a8c5f2" stroke="#1e1408" stroke-width="1.5"/>
-        <line class="cake-path" x1="158" y1="110" x2="174" y2="110" stroke="#fff" stroke-width="2" opacity="0.6"/>
-        <line class="cake-path" x1="158" y1="120" x2="174" y2="120" stroke="#fff" stroke-width="2" opacity="0.6"/>
-        <line class="cake-path" x1="158" y1="130" x2="174" y2="130" stroke="#fff" stroke-width="2" opacity="0.6"/>
-        <text x="166" y="135" font-family="Caveat, cursive" font-size="18" font-weight="700" fill="#3a6bb5" text-anchor="middle">2</text>
-        <line class="cake-path" x1="166" y1="100" x2="166" y2="92" stroke="#666" stroke-width="1.5" stroke-linecap="round"/>
-        <!-- flame group right -->
-        <g id="flameR" class="flame" style="transform-origin:166px 92px;animation-delay:0.13s;">
-          <ellipse cx="166" cy="84" rx="5" ry="9" fill="#e8c547" opacity="0.9"/>
-          <ellipse cx="166" cy="87" rx="3" ry="5.5" fill="#f97316" opacity="0.8"/>
-          <ellipse cx="166" cy="89" rx="1.5" ry="2.5" fill="#fff" opacity="0.7"/>
-          <ellipse class="flame-glow" cx="166" cy="84" rx="8" ry="13" fill="#e8c547" opacity="0.2"/>
+        <!-- CANDLE RIGHT — second "2" -->
+        <rect class="cake-path" x="182" y="112" width="20" height="52" rx="5" fill="#a8c5f2" stroke="#1e1408" stroke-width="1.8"/>
+        <path class="cake-path" d="M182 124 Q192 120 202 124" stroke="rgba(255,255,255,0.5)" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path class="cake-path" d="M182 136 Q192 132 202 136" stroke="rgba(255,255,255,0.5)" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path class="cake-path" d="M182 148 Q192 144 202 148" stroke="rgba(255,255,255,0.5)" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <text x="192" y="152" font-family="Caveat, cursive" font-size="24" font-weight="700" fill="#2a5ba0" text-anchor="middle">2</text>
+        <line class="cake-path" x1="192" y1="112" x2="192" y2="102" stroke="#555" stroke-width="2" stroke-linecap="round"/>
+        <!-- FLAME RIGHT -->
+        <g id="flameR" class="flame" style="transform-origin:192px 102px;animation-delay:0.17s;">
+          <ellipse class="flame-glow" cx="192" cy="91" rx="10" ry="16" fill="#e8c547" opacity="0.22"/>
+          <ellipse cx="192" cy="93" rx="6.5" ry="11" fill="#e8c547" opacity="0.95"/>
+          <ellipse class="flame-inner" cx="192" cy="96" rx="4" ry="7" fill="#f97316" opacity="0.9" style="transform-origin:192px 103px;animation-delay:0.1s;"/>
+          <ellipse cx="192" cy="99" rx="2" ry="3.5" fill="#fff8" opacity="0.85"/>
         </g>
 
-        <!-- sparkles around cake -->
-        <path class="cake-path" d="M60 130 L62 122 L64 130 L72 132 L64 134 L62 142 L60 134 L52 132 Z" fill="#e8c547" opacity="0.7"/>
-        <path class="cake-path" d="M218 115 L219.5 110 L221 115 L226 116.5 L221 118 L219.5 123 L218 118 L213 116.5 Z" fill="#d94f5c" opacity="0.6"/>
-        <path class="cake-path" d="M75 155 L76 151 L77 155 L81 156 L77 157 L76 161 L75 157 L71 156 Z" fill="#3a6bb5" opacity="0.5"/>
+        <!-- sparkles around -->
+        <path class="cake-path" d="M70 148 L72.2 140 L74.4 148 L82.4 150.2 L74.4 152.4 L72.2 160.4 L70 152.4 L62 150.2 Z" fill="#e8c547" opacity="0.75"/>
+        <path class="cake-path" d="M250 132 L251.8 126 L253.6 132 L259.6 133.8 L253.6 135.6 L251.8 141.6 L250 135.6 L244 133.8 Z" fill="#d94f5c" opacity="0.65"/>
+        <path class="cake-path" d="M80 182 L81.4 177 L82.8 182 L87.8 183.4 L82.8 184.8 L81.4 189.8 L80 184.8 L75 183.4 Z" fill="#3a6bb5" opacity="0.5"/>
+        <path class="cake-path" d="M244 175 L245 171 L246 175 L250 176 L246 177 L245 181 L244 177 L240 176 Z" fill="#e8c547" opacity="0.55"/>
+        <!-- tiny dots scattered -->
+        <circle class="cake-path" cx="74" cy="230" r="3" fill="#e8c547" opacity="0.5"/>
+        <circle class="cake-path" cx="252" cy="248" r="2.5" fill="#d94f5c" opacity="0.45"/>
+        <circle class="cake-path" cx="56" cy="290" r="3" fill="#3a6bb5" opacity="0.4"/>
+        <circle class="cake-path" cx="270" cy="300" r="3" fill="#e8c547" opacity="0.4"/>
       </svg>
     </div>
     <div class="cake-wish reveal" id="cakeWish" style="transition-delay:0.3s">make a wish. ✦</div>
-    <button class="blow-btn reveal" id="blowBtn" style="transition-delay:0.4s" onclick="blowCandles()">blow the candles</button>
+    <button class="blow-btn reveal" id="blowBtn" style="transition-delay:0.4s" onclick="blowCandles()">🌬️ blow the candles</button>
   </div>
 
   <!-- LETTER -->
@@ -1041,15 +1208,15 @@ body{
         <div class="letter-greeting">Hi <em>Yash</em>,</div>
         <div class="letter-body">
           <p>It's your birthday.</p>
-          <p>I am so glad you were born on this day, and I feel so lucky to be able to experience life with you.</p>
-          <p>I really want you to enjoy this day. Because it is your day, and <span class="hl">you should live every day like it is your birthday.</span> You deserve to be happy and to always have a smile on your face, just like you help everyone else smile all the time.</p>
-          <p>You are the most beautiful, loving, caring, interesting and bravest human being I have ever met. Everyone is very lucky to have you in their lives.</p>
+          <p>I am so glad you were born on this day. Getting to experience life with you is something I will always be grateful for.</p>
+          <p>I know it has been really hard for you lately, and I know birthdays are not always easy for you — but I genuinely want you to enjoy today. This day is yours. <span class="hl">You deserve to feel celebrated, to be happy, and to carry that smile that somehow makes everyone around you feel better too.</span></p>
+          <p>You are the most beautiful, loving, caring, brave and endlessly interesting person I have ever met. Everyone who has you in their life is lucky for it.</p>
           <p><span class="hl">And I am the luckiest of them all.</span></p>
         </div>
         <div class="letter-sign">
           <div class="sign-always">Always here for you.</div>
           <div class="sign-love">I Love you. ♡</div>
-          <div class="sign-bday">Happiest Birthday my sweet girl.</div>
+          <div class="sign-bday">Happiest Birthday to my sweet girl.</div>
         </div>
       </div>
     </div>
@@ -1064,9 +1231,9 @@ body{
       <polygon points="700,78 720,78 710,106" fill="#fff"/>
       <polygon points="750,72 770,72 760,100" fill="#fff"/>
     </svg>
-    <div class="footer-name reveal">My Tiklu.</div>
+    <div class="footer-name reveal">Yashaswani.</div>
     <div class="footer-date reveal" style="transition-delay:0.1s">7th May, 2025</div>
-    <div class="footer-hbd reveal" style="transition-delay:0.15s">Happy Birthday, <em>Yaaashiii.</em></div>
+    <div class="footer-hbd reveal" style="transition-delay:0.15s">Happy Birthday, <em>Yash.</em></div>
     <div class="footer-hearts reveal" style="transition-delay:0.25s">
       <span class="footer-heart" style="--d:0s;">♡</span>
       <span class="footer-heart" style="--d:0.2s;">♡</span>
@@ -1128,7 +1295,7 @@ window.addEventListener('scroll',()=>{
    TYPEWRITER
 ══════════════════════════════════ */
 const lines=[
-  {el:'type-line-1', text:'For the best girl in the entire world.\nThis one\'s for you.'}
+  {el:'type-line-1', text:'Hi my sweet girl.\nThis one\'s for you.'}
 ];
 function typeText(elId, text, speed=50){
   const el=document.getElementById(elId);
@@ -1255,38 +1422,38 @@ function initObserver(){
       if(e.isIntersecting){
         e.target.classList.add('visible');
         obs.unobserve(e.target);
-        // trigger highlight underlines when letter comes in
         if(e.target.classList.contains('letter-card')){
           setTimeout(()=>{
             document.querySelectorAll('.hl').forEach(h=>h.classList.add('underlined'));
-          },400);
+          },500);
         }
-        // trigger cake draw-on
         if(e.target.closest('#cakeSection')){
           setTimeout(()=>{
             document.querySelectorAll('.cake-path').forEach((p,i)=>{
-              setTimeout(()=>p.classList.add('drawn'),i*40);
+              setTimeout(()=>p.classList.add('drawn'),i*35);
             });
             setTimeout(()=>{
               document.getElementById('cakeWish').classList.add('show');
               document.getElementById('blowBtn').classList.add('show');
-            },1800);
+            },2000);
           },200);
         }
       }
     });
-  },{threshold:0.1,rootMargin:'0px 0px -30px 0px'});
+  },{threshold:0.08,rootMargin:'0px 0px -20px 0px'});
   els.forEach(el=>obs.observe(el));
 
-  // record spin when song section visible
+  // vinyl spin when song section visible
   const songObs=new IntersectionObserver(entries=>{
     entries.forEach(e=>{
-      const rec=document.getElementById('record');
-      if(e.isIntersecting) rec.classList.add('spin');
-      else rec.classList.remove('spin');
+      if(e.isIntersecting && playing){
+        document.getElementById('vinylDisc')?.classList.add('spin');
+        document.getElementById('tonearm')?.classList.add('on-record');
+      }
     });
   },{threshold:0.3});
-  songObs.observe(document.querySelector('.song-section'));
+  const songSection=document.querySelector('.song-section');
+  if(songSection) songObs.observe(songSection);
 }
 
 /* ══════════════════════════════════
@@ -1456,27 +1623,29 @@ document.addEventListener('keydown',e=>{
 function blowCandles(){
   const fL=document.getElementById('flameL');
   const fR=document.getElementById('flameR');
-  // animate flames out
-  fL.style.transition='opacity 0.5s ease, transform 0.5s ease';
-  fR.style.transition='opacity 0.5s ease, transform 0.5s ease';
-  fL.style.opacity='0';fL.style.transform='scale(0.3) translateY(-10px)';
-  fR.style.opacity='0';fR.style.transform='scale(0.3) translateY(-10px)';
-  // smoke wisps (simple SVG appended)
+  fL.style.transition='opacity 0.6s ease, transform 0.6s ease';
+  fR.style.transition='opacity 0.6s ease, transform 0.6s ease';
+  fL.style.opacity='0';fL.style.transform='scale(0.2) translateY(-15px)';
+  fR.style.opacity='0';fR.style.transform='scale(0.2) translateY(-15px)';
+  // smoke wisps at new candle positions
   const svg=document.getElementById('cakeSvg');
-  ['114','166'].forEach((x,i)=>{
+  [['128','102'],['192','102']].forEach(([x,y])=>{
     const s=document.createElementNS('http://www.w3.org/2000/svg','path');
-    s.setAttribute('d',`M${x} 88 Q${Number(x)+8} 74 ${x} 60 Q${Number(x)-6} 46 ${Number(x)+4} 34`);
-    s.setAttribute('stroke','#aaa');s.setAttribute('stroke-width','2');
+    const xn=Number(x);
+    s.setAttribute('d',`M${x} ${y} Q${xn+10} ${Number(y)-18} ${x} ${Number(y)-36} Q${xn-8} ${Number(y)-54} ${xn+6} ${Number(y)-72}`);
+    s.setAttribute('stroke','#b0a090');s.setAttribute('stroke-width','2.5');
     s.setAttribute('fill','none');s.setAttribute('stroke-linecap','round');
-    s.style.opacity='0';s.style.transition='opacity 0.4s ease 0.3s';
+    s.setAttribute('opacity','0');
     svg.appendChild(s);
-    setTimeout(()=>{s.style.opacity='0.4';},50);
-    setTimeout(()=>{s.style.opacity='0';},2000);
+    requestAnimationFrame(()=>{
+      s.style.transition='opacity 0.5s ease';
+      s.style.opacity='0.45';
+    });
+    setTimeout(()=>{s.style.opacity='0';},2200);
   });
   document.getElementById('cakeWish').textContent='✦ wish made ✦';
   document.getElementById('blowBtn').style.display='none';
-  // launch mini confetti
-  setTimeout(()=>launchConfetti(),400);
+  setTimeout(()=>launchConfetti(),500);
 }
 
 /* ══════════════════════════════════
@@ -1504,8 +1673,15 @@ function setPlaying(state){
   playing=state;
   const lbl=document.getElementById('audio-label');
   const dot=document.getElementById('audio-dot');
+  const btn=document.getElementById('vinylPlayBtn');
   lbl.textContent=state?'now playing — take on me':'play our song';
   state?dot.classList.add('pulse'):dot.classList.remove('pulse');
+  if(btn) btn.textContent=state?'⏸':'▶';
+  // spin vinyl
+  const disc=document.getElementById('vinylDisc');
+  const arm=document.getElementById('tonearm');
+  if(disc){state?disc.classList.add('spin'):disc.classList.remove('spin');}
+  if(arm){state?arm.classList.add('on-record'):arm.classList.remove('on-record');}
 }
 function toggleAudio(){
   if(!ytReady){pendingPlay=!pendingPlay;return;}
